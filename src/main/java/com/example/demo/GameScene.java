@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -8,6 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.Random;
 
@@ -72,11 +74,13 @@ class GameScene {
             emptyCells[xCell][yCell].setTextClass(text);
             root.getChildren().add(text);
             emptyCells[xCell][yCell].setColorByNumber(2);
+            playPopAnimation(text);
         } else {
             text = textMaker.madeText("4", emptyCells[xCell][yCell].getX(), emptyCells[xCell][yCell].getY(), root);
             emptyCells[xCell][yCell].setTextClass(text);
             root.getChildren().add(text);
             emptyCells[xCell][yCell].setColorByNumber(4);
+            playPopAnimation(text);
         }
     }
 
@@ -319,5 +323,17 @@ class GameScene {
                         GameScene.this.randomFillNumber(2);
                 });
             });
+    }
+
+
+
+    //popAnimation for random tiles
+    private void playPopAnimation(Text text) {
+        ScaleTransition scale = new ScaleTransition(Duration.millis(200), text);
+        scale.setFromX(0.1);
+        scale.setFromY(0.1);
+        scale.setToX(1.0);
+        scale.setToY(1.0);
+        scale.play();
     }
 }
