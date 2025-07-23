@@ -146,6 +146,7 @@ class GameScene {
     }
 
     private void moveLeft() {
+        printBoardState("LEFT - BEFORE");
         for (int i = 0; i < n; i++) {
             for (int j = 1; j < n; j++) {
                 moveHorizontally(i, j, passDestination(i, j, 'l'), -1);
@@ -154,9 +155,11 @@ class GameScene {
                 cells[i][j].setModify(false);
             }
         }
+        printBoardState("LEFT - AFTER");
     }
 
     private void moveRight() {
+        printBoardState("RIGHT - BEFORE");
         for (int i = 0; i < n; i++) {
             for (int j = n - 1; j >= 0; j--) {
                 moveHorizontally(i, j, passDestination(i, j, 'r'), 1);
@@ -165,9 +168,11 @@ class GameScene {
                 cells[i][j].setModify(false);
             }
         }
+        printBoardState("RIGHT - AFTER");
     }
 
     private void moveUp() {
+        printBoardState("UP - BEFORE");
         for (int j = 0; j < n; j++) {
             for (int i = 1; i < n; i++) {
                 moveVertically(i, j, passDestination(i, j, 'u'), -1);
@@ -176,10 +181,12 @@ class GameScene {
                 cells[i][j].setModify(false);
             }
         }
+        printBoardState("UP - AFTER");
 
     }
 
     private void moveDown() {
+        printBoardState("DOWN - BEFORE");
         for (int j = 0; j < n; j++) {
             for (int i = n - 1; i >= 0; i--) {
                 moveVertically(i, j, passDestination(i, j, 'd'), 1);
@@ -188,6 +195,7 @@ class GameScene {
                 cells[i][j].setModify(false);
             }
         }
+        printBoardState("DOWN - AFTER");
 
     }
 
@@ -320,4 +328,15 @@ class GameScene {
                 });
             });
     }
+    private void printBoardState(String direction) {
+        System.out.println("\n" + direction + " MOVE");
+        for (int i = 0; i < n; i++) {
+            StringBuilder row = new StringBuilder();
+            for (int j = 0; j < n; j++) {
+                row.append("[").append(cells[i][j].getNumber()).append("]");
+            }
+            System.out.println("Row " + i + ": " + row);
+        }
+    }
+
 }
