@@ -214,7 +214,7 @@ class GameScene {
             int mergedValue = cells[i][j].getNumber() + cells[i][des + sign].getNumber();
             cells[i][j].adder(cells[i][des + sign]);
             score += mergedValue;
-
+            ScoreDebugger.debugMergeScore(score, mergedValue);
             scoreText.setText(String.valueOf(score));
             cells[i][des+sign].setModify(true);
 
@@ -238,7 +238,7 @@ class GameScene {
             int mergedValue = cells[i][j].getNumber() + cells[des + sign][j].getNumber();
             cells[i][j].adder(cells[des + sign][j]);
             score += mergedValue;
-
+            ScoreDebugger.debugMergeScore(score, mergedValue);
             scoreText.setText(String.valueOf(score));
             cells[des+sign][j].setModify(true);
         }
