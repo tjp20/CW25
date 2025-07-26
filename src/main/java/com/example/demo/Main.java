@@ -35,8 +35,13 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
+        primaryStage.setMaximized(true);
+        primaryStage.setResizable(true);
+        primaryStage.setTitle("2048 RETRO ");
+
         Group menuRoot = new Group();
         Scene menuScene = new Scene(menuRoot, WIDTH, HEIGHT);
+        MenuScreen.addToMenu(menuRoot, menuScene);
         Group accountRoot = new Group();
         Scene accountScene = new Scene(accountRoot, WIDTH, HEIGHT, Color.rgb(150, 20, 100, 0.2));
         Group getAccountRoot = new Group();
@@ -64,12 +69,17 @@ public class Main extends Application {
         Scene gameScene = new Scene(gameRoot, WIDTH, HEIGHT, Color.rgb(189, 177, 92));
         setGameScene(gameScene);
         primaryStage.setScene(gameScene);
+        launchMenu(primaryStage, menuScene);
+
+
         GameScene game = new GameScene();
         game.game(gameScene, gameRoot, primaryStage, endGameScene, endgameRoot);
 
         primaryStage.show();
     }
-
+    public void launchMenu(Stage primaryStage, Scene menuScene) {
+        primaryStage.setScene(menuScene);
+    }
     public static void main(String[] args) {
         launch(args);
     }
