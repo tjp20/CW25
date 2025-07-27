@@ -7,10 +7,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 public class MenuScreen {
 
-    public static void addToMenu(Group menuRoot, Scene scene) {
+    public static void addToMenu(Group menuRoot, Scene scene, Scene accountScene, Stage primaryStage) {
         // Background fill color
         Rectangle backgroundFill = new Rectangle();
         backgroundFill.setFill(Color.web("#e7d9c6"));
@@ -54,7 +55,9 @@ public class MenuScreen {
 
         // Click action
         playButton.setOnAction(e -> {
-            System.out.println("Play button clicked!");
+            System.out.println("Play button clicked!");//debug statement
+            primaryStage.setScene(accountScene);
+            primaryStage.setMaximized(true);
         });
     }
 }

@@ -13,7 +13,7 @@ import javafx.util.Duration;
 
 import java.util.Random;
 
-class GameScene {
+class LevelParent {
     private static int HEIGHT = 700;
     private static int n = 4;
     private final static int distanceBetweenCells = 10;
@@ -300,19 +300,19 @@ class GameScene {
                 Platform.runLater(() -> {
                     int haveEmptyCell;
                     if (key.getCode() == KeyCode.DOWN) {
-                        GameScene.this.moveDown();
+                        LevelParent.this.moveDown();
                     } else if (key.getCode() == KeyCode.UP) {
-                        GameScene.this.moveUp();
+                        LevelParent.this.moveUp();
                     } else if (key.getCode() == KeyCode.LEFT) {
-                        GameScene.this.moveLeft();
+                        LevelParent.this.moveLeft();
                     } else if (key.getCode() == KeyCode.RIGHT) {
-                        GameScene.this.moveRight();
+                        LevelParent.this.moveRight();
                     }
                     //GameScene.this.sumCellNumbersToScore();
                     scoreText.setText(score + "");
-                    haveEmptyCell = GameScene.this.haveEmptyCell();
+                    haveEmptyCell = LevelParent.this.haveEmptyCell();
                     if (haveEmptyCell == -1) {
-                        if (GameScene.this.canNotMove()) {
+                        if (LevelParent.this.canNotMove()) {
                             primaryStage.setScene(endGameScene);
 
                             EndGame.getInstance().endGameShow(endGameScene, endGameRoot, primaryStage, score);
@@ -320,7 +320,7 @@ class GameScene {
                             score = 0;
                         }
                     } else if(haveEmptyCell == 1)
-                        GameScene.this.randomFillNumber(2);
+                        LevelParent.this.randomFillNumber(2);
                 });
             });
     }
