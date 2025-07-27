@@ -7,10 +7,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class AccountScreen {
 
-    public static void addToAccountScreen(Group accountRoot, Scene accountScene) {
+    public static void addToAccountScreen(Group accountRoot, Scene accountScene, Scene getAccountScene, Stage primaryStage) {
         // Title
         Text title = new Text("Enter Username");
         title.setFont(Font.font("Arial", 32));
@@ -85,6 +86,7 @@ public class AccountScreen {
                 Account newAccount = Account.makeNewAccount(enteredName);
                 resultText.setText("New account created: " + newAccount.getUserName());
                 resultText.setFill(Color.GREEN);
+                primaryStage.setScene(getAccountScene);
             }
         });
     }

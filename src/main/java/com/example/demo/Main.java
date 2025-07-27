@@ -8,6 +8,8 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.util.Scanner;
 
@@ -38,7 +40,6 @@ public class Main extends Application {
 
 
 
-
         //MENU
         Group menuRoot = new Group();
         Scene menuScene = new Scene(menuRoot, WIDTH, HEIGHT);
@@ -50,7 +51,16 @@ public class Main extends Application {
         //GET ACCOUNT
         Group getAccountRoot = new Group();
         Scene getAccountScene = new Scene(getAccountRoot, WIDTH, HEIGHT, Color.rgb(200, 20, 100, 0.2));
-        AccountScreen.addToAccountScreen(accountRoot,accountScene);
+        AccountScreen.addToAccountScreen(accountRoot, accountScene, getAccountScene, primaryStage);
+        CreateAccountScreen.addToCreateAccountScreen(getAccountRoot, getAccountScene, accountScene,primaryStage);
+
+        Text testLabel = new Text("This is the GET ACCOUNT SCREEN");
+        testLabel.setFill(Color.BLACK);
+        testLabel.setFont(Font.font("Arial", 24));
+        testLabel.setX(250);
+        testLabel.setY(200);
+        getAccountRoot.getChildren().add(testLabel);
+
 
         //END GAME
         Group endgameRoot = new Group();
