@@ -46,12 +46,13 @@ public class Main extends Application {
         MenuScreen.addToMenu(menuRoot, menuScene, accountScene, primaryStage);
 
 
-
+        Group levelRoot = new Group();
+        Scene levelScene = new Scene(levelRoot, WIDTH, HEIGHT);
 
         //GET ACCOUNT
         Group getAccountRoot = new Group();
         Scene getAccountScene = new Scene(getAccountRoot, WIDTH, HEIGHT, Color.rgb(200, 20, 100, 0.2));
-        AccountScreen.addToAccountScreen(accountRoot, accountScene, getAccountScene, primaryStage);
+        AccountScreen.addToAccountScreen(accountRoot, accountScene, getAccountScene, primaryStage, levelScene, levelRoot);
         CreateAccountScreen.addToCreateAccountScreen(getAccountRoot, getAccountScene, accountScene,primaryStage);
 
         Text testLabel = new Text("This is the GET ACCOUNT SCREEN");
