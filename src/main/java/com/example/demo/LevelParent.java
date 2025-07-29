@@ -19,7 +19,7 @@ class LevelParent {
     private final static int distanceBetweenCells = 10;
     private static double LENGTH = (HEIGHT - ((n + 1) * distanceBetweenCells)) / (double) n;
     private TextMaker textMaker = TextMaker.getSingleInstance();
-    private Cell[][] cells = new Cell[n][n];
+    private Cell[][] cells;
     private Group root;
     private long score = 0;
     private Text scoreText = new Text();
@@ -273,6 +273,7 @@ class LevelParent {
     } */
 
     void game(Scene gameScene, Group root, Stage primaryStage, Scene endGameScene, Group endGameRoot) {
+        cells = new Cell[n][n];
         this.root = root;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {

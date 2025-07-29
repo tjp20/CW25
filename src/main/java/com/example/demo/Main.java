@@ -33,10 +33,12 @@ public class Main extends Application {
         primaryStage.setMaximized(true);
         primaryStage.setResizable(true);
         primaryStage.setTitle("2048 RETRO ");
+        Account.loadAccounts();
 
         //ACCOUNT
         Group accountRoot = new Group();
         Scene accountScene = new Scene(accountRoot, WIDTH, HEIGHT, Color.rgb(150, 20, 100, 0.2));
+
 
 
 
@@ -45,14 +47,18 @@ public class Main extends Application {
         Scene menuScene = new Scene(menuRoot, WIDTH, HEIGHT);
         MenuScreen.addToMenu(menuRoot, menuScene, accountScene, primaryStage);
 
-
+        //LEVEL SCREEN
         Group levelRoot = new Group();
         Scene levelScene = new Scene(levelRoot, WIDTH, HEIGHT);
+
+        //END GAME
+        Group endgameRoot = new Group();
+        Scene endGameScene = new Scene(endgameRoot, WIDTH, HEIGHT, Color.rgb(250, 20, 100, 0.2));
 
         //GET ACCOUNT
         Group getAccountRoot = new Group();
         Scene getAccountScene = new Scene(getAccountRoot, WIDTH, HEIGHT, Color.rgb(200, 20, 100, 0.2));
-        AccountScreen.addToAccountScreen(accountRoot, accountScene, getAccountScene, primaryStage, levelScene, levelRoot);
+        AccountScreen.addToAccountScreen(accountRoot, accountScene, getAccountScene, primaryStage, levelScene, levelRoot, endGameScene, endgameRoot);
         CreateAccountScreen.addToCreateAccountScreen(getAccountRoot, getAccountScene, accountScene,primaryStage);
 
         Text testLabel = new Text("This is the GET ACCOUNT SCREEN");
@@ -62,10 +68,6 @@ public class Main extends Application {
         testLabel.setY(200);
         getAccountRoot.getChildren().add(testLabel);
 
-
-        //END GAME
-        Group endgameRoot = new Group();
-        Scene endGameScene = new Scene(endgameRoot, WIDTH, HEIGHT, Color.rgb(250, 20, 100, 0.2));
 
         //RANK GAME
         Group rankRoot = new Group();

@@ -11,7 +11,7 @@ import javafx.stage.Stage;
 
 public class AccountScreen {
 
-    public static void addToAccountScreen(Group accountRoot, Scene accountScene, Scene getAccountScene, Stage primaryStage, Scene levelScene, Group levelRoot) {
+    public static void addToAccountScreen(Group accountRoot, Scene accountScene, Scene getAccountScene, Stage primaryStage, Scene levelScene, Group levelRoot, Scene endGameScene, Group endGameRoot) {
         // Title
         Text title = new Text("Enter Username");
         title.setFont(Font.font("Arial", 32));
@@ -62,7 +62,7 @@ public class AccountScreen {
             if (existing != null) {
                 resultText.setText("Welcome back, " + existing.getUserName() + "!");
                 resultText.setFill(Color.GREEN);
-                LevelScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, existing.getUserName());
+                LevelScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, existing.getUserName(), endGameScene, endGameRoot);
 
                 primaryStage.setScene(levelScene);
             } else {
