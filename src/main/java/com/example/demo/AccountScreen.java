@@ -58,21 +58,25 @@ public class AccountScreen {
                 return;
             }
 
+
             Account existing = Account.accountHaveBeenExist(enteredName);
             if (existing != null) {
+                Account.currentUsername = existing.getUserName();
                 resultText.setText("Welcome back, " + existing.getUserName() + "!");
                 resultText.setFill(Color.GREEN);
                 LevelScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, existing.getUserName(), endGameScene, endGameRoot);
 
+
                 primaryStage.setScene(levelScene);
             } else {
-                resultText.setText("Account not found.");
+                resultText.setText("Account not found. Please Create Account");
                 resultText.setFill(Color.ORANGE);
             }
         });
 
         // Create Account button action
         createButton.setOnAction(e -> {
+
             String enteredName = usernameField.getText().trim();
 
             if (enteredName.isEmpty()) {
@@ -80,7 +84,7 @@ public class AccountScreen {
                 resultText.setFill(Color.RED);
                 return;
             }
-
+            Account.loadAccounts();
             Account existing = Account.accountHaveBeenExist(enteredName);
             if (existing != null) {
                 resultText.setText("Account already exists!");
@@ -90,6 +94,7 @@ public class AccountScreen {
                 resultText.setText("New account created: " + newAccount.getUserName());
                 resultText.setFill(Color.GREEN);
                 primaryStage.setScene(getAccountScene);
+
             }
         });
     }

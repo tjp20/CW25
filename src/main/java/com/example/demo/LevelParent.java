@@ -10,6 +10,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.paint.Color;
 
 import java.util.Random;
 
@@ -293,6 +294,11 @@ class LevelParent {
         scoreText.relocate(750, 150);
         scoreText.setFont(Font.font(20));
         scoreText.setText("0");
+        Text usernameText = new Text("User: " + Account.currentUsername);
+        usernameText.setFont(Font.font(24));
+        usernameText.setFill(Color.RED);
+        usernameText.relocate(750, 60);
+        root.getChildren().add(usernameText);
 
         randomFillNumber(1);
         randomFillNumber(1);
