@@ -77,25 +77,10 @@ public class AccountScreen {
         // Create Account button action
         createButton.setOnAction(e -> {
 
-            String enteredName = usernameField.getText().trim();
+            usernameField.clear();
+            resultText.setText("");
+            primaryStage.setScene(getAccountScene);
 
-            if (enteredName.isEmpty()) {
-                resultText.setText("Please enter a name.");
-                resultText.setFill(Color.RED);
-                return;
-            }
-            Account.loadAccounts();
-            Account existing = Account.accountHaveBeenExist(enteredName);
-            if (existing != null) {
-                resultText.setText("Account already exists!");
-                resultText.setFill(Color.ORANGE);
-            } else {
-                Account newAccount = Account.makeNewAccount(enteredName);
-                resultText.setText("New account created: " + newAccount.getUserName());
-                resultText.setFill(Color.GREEN);
-                primaryStage.setScene(getAccountScene);
-
-            }
         });
     }
 }
