@@ -1,29 +1,36 @@
 package com.example.demo;
 
-import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import javafx.scene.paint.Color;
 
 import java.util.Random;
+import javafx.animation.ScaleTransition;
+import javafx.util.Duration;
 
-public class LevelParent {
+
+
+public  class LevelParent {
     private static int HEIGHT = 700;
     private static int n = 4;
     private final static int distanceBetweenCells = 10;
     private static double LENGTH = (HEIGHT - ((n + 1) * distanceBetweenCells)) / (double) n;
     private TextMaker textMaker = TextMaker.getSingleInstance();
+    //private Cell[][] cells = new Cell[n][n];
     private Cell[][] cells;
-    private Group root;
+
+    private Group root; //the UI container
     private long score = 0;
     private Text scoreText = new Text();
+
+
+
 
     static void setN(int number) {
         n = number;
@@ -75,13 +82,17 @@ public class LevelParent {
             emptyCells[xCell][yCell].setTextClass(text);
             root.getChildren().add(text);
             emptyCells[xCell][yCell].setColorByNumber(2);
+            //
             playPopAnimation(text);
+
         } else {
             text = textMaker.madeText("4", emptyCells[xCell][yCell].getX(), emptyCells[xCell][yCell].getY(), root);
             emptyCells[xCell][yCell].setTextClass(text);
             root.getChildren().add(text);
             emptyCells[xCell][yCell].setColorByNumber(4);
+            //
             playPopAnimation(text);
+
         }
     }
 
@@ -151,6 +162,7 @@ public class LevelParent {
     }
 
     private void moveLeft() {
+        printBoardState("LEFT - BEFORE");
         for (int i = 0; i < n; i++) {
             for (int j = 1; j < n; j++) {
                 moveHorizontally(i, j, passDestination(i, j, 'l'), -1);
@@ -159,20 +171,35 @@ public class LevelParent {
                 cells[i][j].setModify(false);
             }
         }
+
+        //debug
+
+        printBoardState("LEFT - AFTER");
+
+
     }
 
+
+
+
     private void moveRight() {
+
+        printBoardState("RIGHT - BEFORE");
         for (int i = 0; i < n; i++) {
             for (int j = n - 1; j >= 0; j--) {
                 moveHorizontally(i, j, passDestination(i, j, 'r'), 1);
             }
+
+
             for (int j = 0; j < n; j++) {
                 cells[i][j].setModify(false);
             }
         }
+        printBoardState("RIGHT - AFTER");
     }
 
     private void moveUp() {
+        printBoardState("UP - BEFORE");
         for (int j = 0; j < n; j++) {
             for (int i = 1; i < n; i++) {
                 moveVertically(i, j, passDestination(i, j, 'u'), -1);
@@ -181,10 +208,11 @@ public class LevelParent {
                 cells[i][j].setModify(false);
             }
         }
-
+        printBoardState("UP - AFTER");
     }
 
     private void moveDown() {
+        printBoardState("DOWN - BEFORE");
         for (int j = 0; j < n; j++) {
             for (int i = n - 1; i >= 0; i--) {
                 moveVertically(i, j, passDestination(i, j, 'd'), 1);
@@ -193,7 +221,7 @@ public class LevelParent {
                 cells[i][j].setModify(false);
             }
         }
-
+        printBoardState("DOWN - AFTER");
     }
 
     private boolean isValidDesH(int i, int j, int des, int sign) {
@@ -207,16 +235,21 @@ public class LevelParent {
     }
 
     private void moveHorizontally(int i, int j, int des, int sign) {
+        /*if (isValidDesH(i, j, des, sign)) {
+            cells[i][j].adder(cells[i][des + sign]);
+            cells[i][des].setModify(true);
+        } */
         if (isValidDesH(i, j, des, sign)) {
             int mergedValue = cells[i][j].getNumber() + cells[i][des + sign].getNumber();
             cells[i][j].adder(cells[i][des + sign]);
             score += mergedValue;
-
+            ScoreDebugger.debugMergeScore(score, mergedValue); // added this line
             scoreText.setText(String.valueOf(score));
             cells[i][des+sign].setModify(true);
 
 
-        } else if (des != j) {
+        }
+        else if (des != j) {
             cells[i][j].changeCell(cells[i][des]);
         }
     }
@@ -231,11 +264,14 @@ public class LevelParent {
     }
 
     private void moveVertically(int i, int j, int des, int sign) {
+       /* if (isValidDesV(i, j, des, sign)) {
+            cells[i][j].adder(cells[des + sign][j]);
+            cells[des][j].setModify(true);*/
         if (isValidDesV(i, j, des, sign)) {
             int mergedValue = cells[i][j].getNumber() + cells[des + sign][j].getNumber();
             cells[i][j].adder(cells[des + sign][j]);
             score += mergedValue;
-
+            ScoreDebugger.debugMergeScore(score, mergedValue);//added this
             scoreText.setText(String.valueOf(score));
             cells[des+sign][j].setModify(true);
         }
@@ -265,17 +301,18 @@ public class LevelParent {
         return true;
     }
 
-    /*private void sumCellNumbersToScore() {
+    private void sumCellNumbersToScore() {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 score += cells[i][j].getNumber();
             }
         }
-    } */
+    }
 
     void game(Scene gameScene, Group root, Stage primaryStage, Scene endGameScene, Group endGameRoot) {
-        cells = new Cell[n][n];
         this.root = root;
+        this.cells = new Cell[n][n];  // Now uses updated grid size
+
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 cells[i][j] = new Cell((j) * LENGTH + (j + 1) * distanceBetweenCells,
@@ -294,11 +331,19 @@ public class LevelParent {
         scoreText.relocate(750, 150);
         scoreText.setFont(Font.font(20));
         scoreText.setText("0");
+
         Text usernameText = new Text("User: " + Account.currentUsername);
         usernameText.setFont(Font.font(24));
         usernameText.setFill(Color.RED);
         usernameText.relocate(750, 60);
         root.getChildren().add(usernameText);
+
+        long best = UserScore.getBestScore(Account.currentUsername, "Level " + n);
+        Text bestScoreText = new Text("Best: " + best);
+        bestScoreText.setFont(Font.font(20));
+        bestScoreText.setFill(Color.BLUE);
+        bestScoreText.relocate(750, 180);
+        root.getChildren().add(bestScoreText);
 
         randomFillNumber(1);
         randomFillNumber(1);
@@ -315,11 +360,13 @@ public class LevelParent {
                 } else if (key.getCode() == KeyCode.RIGHT) {
                     LevelParent.this.moveRight();
                 }
-                //GameScene.this.sumCellNumbersToScore();
+                // GameScene.this.sumCellNumbersToScore();// we are not adding number by just moving left and right
                 scoreText.setText(score + "");
                 haveEmptyCell = LevelParent.this.haveEmptyCell();
                 if (haveEmptyCell == -1) {
                     if (LevelParent.this.canNotMove()) {
+                        UserScore.updateScore(Account.currentUsername, "Level " + n, score);
+
                         primaryStage.setScene(endGameScene);
 
                         EndGame.getInstance().endGameShow(endGameScene, endGameRoot, primaryStage, score);
@@ -334,7 +381,63 @@ public class LevelParent {
 
 
 
-    //popAnimation for random tiles
+
+    //ADDED
+    //left
+  /*  private void printRowMerge(int rowIndex, String direction) {
+        StringBuilder before = new StringBuilder();
+        StringBuilder after = new StringBuilder();
+
+        // Get the current row before merging
+        for (int j = 0; j < n; j++) {
+            before.append("[").append(cells[rowIndex][j].getNumber()).append("]");
+        }
+
+        // Copy the row values into an array
+        int[] row = new int[n];
+        for (int j = 0; j < n; j++) {
+            row[j] = cells[rowIndex][j].getNumber();
+        }
+
+        // Simulate a merge (only one pass, like 2048)
+        for (int j = 0; j < n - 1; j++) {
+            if (row[j] != 0 && row[j] == row[j + 1]) {
+                row[j] *= 2;
+                row[j + 1] = 0;
+            }
+        }
+
+        // Compact the row (shift everything left)
+        int[] compacted = new int[n];
+        int idx = 0;
+        for (int val : row) {
+            if (val != 0) {
+                compacted[idx++] = val;
+            }
+        }
+
+        // Build the 'after' view
+        for (int j = 0; j < n; j++) {
+            after.append("[").append(compacted[j]).append("]");
+        }
+
+        // Print nicely formatted row
+        System.out.println("Merged row " + rowIndex + " " + direction + ": " + before + " → " + after);
+    }*/
+
+
+    private void printBoardState(String direction) {
+        System.out.println("\n" + direction + " MOVE");
+        for (int i = 0; i < n; i++) {
+            StringBuilder row = new StringBuilder();
+            for (int j = 0; j < n; j++) {
+                row.append("[").append(cells[i][j].getNumber()).append("]");
+            }
+            System.out.println("Row " + i + ": " + row);
+        }
+    }
+
+
     private void playPopAnimation(Text text) {
         ScaleTransition scale = new ScaleTransition(Duration.millis(200), text);
         scale.setFromX(0.1);
@@ -343,4 +446,5 @@ public class LevelParent {
         scale.setToY(1.0);
         scale.play();
     }
+
 }
