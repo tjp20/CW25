@@ -115,6 +115,6 @@ public class AccountScreen {
         });
 
         // Exit button
-        // ExitButton.addTo(accountRoot, primaryStage, accountScene.getWidth());
+        ExitButton.addTo(accountRoot, primaryStage, accountScene.getWidth());
     }
 }

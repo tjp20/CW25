@@ -60,5 +60,7 @@ public class MenuScreen {
             //primaryStage.setMaximized(true);
 
         });
+
+        ExitButton.addTo(menuRoot, primaryStage, scene.getWidth());
     }
 }
