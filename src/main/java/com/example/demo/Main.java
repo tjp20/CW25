@@ -65,12 +65,12 @@ public class Main extends Application {
         AccountScreen.addToAccountScreen(accountRoot, accountScene, getAccountScene, primaryStage, levelScene, levelRoot, endGameScene, endgameRoot);
         CreateAccountScreen.addToCreateAccountScreen(getAccountRoot, getAccountScene, accountScene, primaryStage);
 
-        Text testLabel = new Text("This is the GET ACCOUNT SCREEN");
+        /*Text testLabel = new Text("This is the GET ACCOUNT SCREEN");
         testLabel.setFill(Color.BLACK);
         testLabel.setFont(Font.font("Arial", 24));
         testLabel.setX(250);
         testLabel.setY(200);
-        getAccountRoot.getChildren().add(testLabel);
+        getAccountRoot.getChildren().add(testLabel);*/
 
         // RANK GAME
         Group rankRoot = new Group();
@@ -79,7 +79,7 @@ public class Main extends Application {
         BackgroundFill background_fill = new BackgroundFill(Color.rgb(120, 100, 100), CornerRadii.EMPTY, Insets.EMPTY);
         Background background = new Background(background_fill);
 
-        Rectangle backgroundOfMenu = new Rectangle(240, 120, Color.rgb(120, 120, 120, 0.2));
+        /*Rectangle backgroundOfMenu = new Rectangle(240, 120, Color.rgb(120, 120, 120, 0.2));
         backgroundOfMenu.setX(screenWidth / 2 - 120);
         backgroundOfMenu.setY(180);
         menuRoot.getChildren().add(backgroundOfMenu);
@@ -87,7 +87,7 @@ public class Main extends Application {
         Rectangle backgroundOfMenuForPlay = new Rectangle(240, 140, Color.rgb(120, 20, 100, 0.2));
         backgroundOfMenuForPlay.setX(screenWidth / 2 - 120);
         backgroundOfMenuForPlay.setY(180);
-        accountRoot.getChildren().add(backgroundOfMenuForPlay);
+        accountRoot.getChildren().add(backgroundOfMenuForPlay);*/
 
         Group gameRoot = new Group();
         setGameRoot(gameRoot);
