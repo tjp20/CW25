@@ -4,6 +4,8 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -12,59 +14,103 @@ import javafx.stage.Stage;
 public class CreateAccountScreen {
 
     public static void addToCreateAccountScreen(Group root, Scene scene, Scene accountScene, Stage primaryStage) {
-        // Title
-        Text createTitle = new Text("Create a New Account");
-        createTitle.setFont(Font.font("Arial", 32));
-        createTitle.setFill(Color.BLACK);
-        createTitle.setX(300);
-        createTitle.setY(100);
-        root.getChildren().add(createTitle);
+        // Set background color
+        scene.setFill(Color.web("#ffedb5"));
 
-        // Input field
+        // Add background image
+        try {
+            Image bg = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/CreateBackground.png"));
+            ImageView bgView = new ImageView(bg);
+            bgView.setPreserveRatio(true);
+            bgView.setFitWidth(1200);  // fixed size
+            bgView.setX(150);          // fixed position
+            bgView.setY(40);
+            root.getChildren().add(bgView);
+        } catch (Exception e) {
+            System.out.println("CreateBackground.png not found.");
+        }
+
+        // Username input field (same place as AccountScreen)
         TextField newUserField = new TextField();
         newUserField.setPromptText("Enter new username");
-        newUserField.setLayoutX(300);
-        newUserField.setLayoutY(150);
-        newUserField.setPrefWidth(300);
+        newUserField.setLayoutX(620);
+        newUserField.setLayoutY(410);
+        newUserField.setPrefWidth(260);
+        newUserField.setPrefHeight(30);
         root.getChildren().add(newUserField);
 
-        // Create button
-        Button confirmCreateBtn = new Button("Create");
-        confirmCreateBtn.setLayoutX(400);
-        confirmCreateBtn.setLayoutY(220);
+        // Load button images
+        Image createNormal = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/CreateAccountButton1.png"));
+        Image createHover = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/CreateAccountButton2.png"));
+
+        // Create Account button with image
+        Button confirmCreateBtn = new Button();
+        ImageView createView = new ImageView(createNormal);
+        createView.setFitWidth(270);
+        createView.setFitHeight(190);
+        createView.setPreserveRatio(true);
+        confirmCreateBtn.setGraphic(createView);
+        confirmCreateBtn.setStyle("-fx-background-color: transparent;");
+        confirmCreateBtn.setLayoutX(650); // aligned with AccountScreen's HBox X
+        confirmCreateBtn.setLayoutY(480); // below the text field and feedback
+        confirmCreateBtn.setOnMouseEntered(e -> createView.setImage(createHover));
+        confirmCreateBtn.setOnMouseExited(e -> createView.setImage(createNormal));
         root.getChildren().add(confirmCreateBtn);
 
-        // Login button
-        Button backToLoginBtn = new Button("Login");
-        backToLoginBtn.setLayoutX(405);
-        backToLoginBtn.setLayoutY(270);
-        root.getChildren().add(backToLoginBtn);
-
-        // Feedback
+        // Feedback text (same position as AccountScreen resultText)
         Text feedback = new Text();
         feedback.setFont(Font.font("Arial", 18));
-        feedback.setX(300);
-        feedback.setY(330);
+        feedback.setFill(Color.RED);
+        feedback.setX(600);
+        feedback.setY(480);
         root.getChildren().add(feedback);
 
-        // Create action
+
+        // Back button with image
+        Image backImg = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/BackButton.png"));
+        ImageView backView = new ImageView(backImg);
+        backView.setFitWidth(60);  // Adjust size as needed
+        backView.setFitHeight(60);
+
+        Button backButton = new Button();
+        backButton.setGraphic(backView);
+        backButton.setStyle("-fx-background-color: transparent;");
+        backButton.setLayoutX(20);
+        backButton.setLayoutY(20);
+        root.getChildren().add(backButton);
+
+
+        // Create button logic
         confirmCreateBtn.setOnAction(e -> {
             String username = newUserField.getText().trim();
+            Account.loadAccounts();
+
             if (username.isEmpty()) {
-                feedback.setText("Username cannot be empty.");
+                feedback.setText("Please enter a name.");
                 feedback.setFill(Color.RED);
             } else if (Account.accountHaveBeenExist(username) != null) {
-                feedback.setText("Account already exists.");
-                feedback.setFill(Color.ORANGE);
+                feedback.setText("Account already exists. Please Login");
+                feedback.setFill(Color.RED);
             } else {
                 Account.makeNewAccount(username);
-                feedback.setText("Account created: " + username);
+                feedback.setText("Account created. Redirecting...");
                 feedback.setFill(Color.GREEN);
+
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    javafx.application.Platform.runLater(() -> {
+                        primaryStage.setScene(accountScene);
+                    });
+                }).start();
             }
         });
 
-        // Login action
-        backToLoginBtn.setOnAction(e -> {
+        // Back button logic
+        backButton.setOnAction(e -> {
             primaryStage.setScene(accountScene);
         });
     }
