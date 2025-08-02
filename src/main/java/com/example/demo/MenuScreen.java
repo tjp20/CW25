@@ -57,7 +57,8 @@ public class MenuScreen {
         playButton.setOnAction(e -> {
             System.out.println("Play button clicked!");//debug statement
             primaryStage.setScene(accountScene);
-            primaryStage.setMaximized(true);
+            //primaryStage.setMaximized(true);
+
         });
     }
 }

@@ -27,6 +27,6 @@ public class Level1 extends LevelParent {
 
         this.game(scene, root, stage, endScene, endRoot);
         stage.setScene(scene);
-        stage.setMaximized(true);
+        stage.setFullScreen(true);
     }
 }
