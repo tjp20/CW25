@@ -32,10 +32,19 @@ public  class LevelParent {
     private PauseScreen pauseScreen;
 
     private String currentLevelName = "Level 1";
+    private static String levelName = "Level 1";
+
+
 
     public void setLevelName(String name) {
         this.currentLevelName = name;
+        levelName = name;
     }
+    public static String getLevelName() {
+        return levelName;
+    }
+
+
 
 
 
@@ -429,6 +438,7 @@ public  class LevelParent {
 
         gameScene.addEventHandler(KeyEvent.KEY_PRESSED, key ->{
             Platform.runLater(() -> {
+                if (pauseScreen != null && pauseScreen.isPaused()) return;
                 int haveEmptyCell;
                 if (key.getCode() == KeyCode.DOWN) {
                     LevelParent.this.moveDown();
@@ -524,6 +534,10 @@ public  class LevelParent {
         scale.setToX(1.0);
         scale.setToY(1.0);
         scale.play();
+    }
+
+    public long getScore() {
+        return this.score;
     }
 
 }
