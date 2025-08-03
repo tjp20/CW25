@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -318,38 +319,77 @@ public  class LevelParent {
     void game(Scene gameScene, Group root, Stage primaryStage, Scene endGameScene, Group endGameRoot) {
         this.root = root;
         this.cells = new Cell[n][n];  // Now uses updated grid size
+        double gridOffsetX = 350; // move grid 400 pixels to the right
+        double gridOffsetY = 50;
+
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                cells[i][j] = new Cell((j) * LENGTH + (j + 1) * distanceBetweenCells,
-                        (i) * LENGTH + (i + 1) * distanceBetweenCells, LENGTH, root);
+                cells[i][j] = new Cell(gridOffsetX+(j) * LENGTH + (j + 1) * distanceBetweenCells,
+                        gridOffsetY+(i) * LENGTH + (i + 1) * distanceBetweenCells, LENGTH, root);
             }
 
         }
 
-        Text text = new Text();
-        root.getChildren().add(text);
-        text.setText("SCORE :");
-        text.setFont(Font.font(30));
-        text.relocate(750, 100);
-        scoreText = new Text();
-        root.getChildren().add(scoreText);
-        scoreText.relocate(750, 150);
-        scoreText.setFont(Font.font(20));
-        scoreText.setText("0");
 
-        Text usernameText = new Text("User: " + Account.currentUsername);
-        usernameText.setFont(Font.font(24));
-        usernameText.setFill(Color.RED);
-        usernameText.relocate(750, 60);
-        root.getChildren().add(usernameText);
+        // Username box
+        UsernameDisplay.addTo(root, Account.currentUsername, 50, 30);
 
-        long best = UserScore.getBestScore(Account.currentUsername, currentLevelName);
-        Text bestScoreText = new Text("Best: " + best);
-        bestScoreText.setFont(Font.font(20));
-        bestScoreText.setFill(Color.BLUE);
-        bestScoreText.relocate(750, 180);
-        root.getChildren().add(bestScoreText);
+        //Best score value
+        long bestScore = UserScore.getBestScore(Account.currentUsername, currentLevelName);
+
+        // Box layout settings
+        double boxWidth = 150;
+        double boxHeight = 60;
+        double spacing = 20;
+        double topY = 200;
+        double startX = 20;  // moved left from 550
+
+        // === BEST SCORE BOX ===
+        Rectangle bestBox = new Rectangle(boxWidth, boxHeight);
+        bestBox.setArcWidth(20);
+        bestBox.setArcHeight(20);
+        bestBox.setFill(Color.web("#D7CCC8")); // Light brown / cream
+        bestBox.setX(startX);
+        bestBox.setY(topY);
+
+        Text bestLabel = new Text("BEST SCORE");
+        bestLabel.setFont(Font.font("Consolas", 18));
+        bestLabel.setFill(Color.web("#4E342E")); // Deep brown text
+        bestLabel.setX(startX + 15);
+        bestLabel.setY(topY + 22);
+
+        Text bestValue = new Text(String.valueOf(bestScore));
+        bestValue.setFont(Font.font("Consolas", 20));
+        bestValue.setFill(Color.web("#3E2723")); // Darker brown
+        bestValue.setX(startX + 15);
+        bestValue.setY(topY + 48);
+
+        // === CURRENT SCORE BOX ===
+        Rectangle scoreBox = new Rectangle(boxWidth, boxHeight);
+        scoreBox.setArcWidth(20);
+        scoreBox.setArcHeight(20);
+        scoreBox.setFill(Color.web("#BCAAA4")); // Soft brown
+        scoreBox.setX(startX + boxWidth + spacing);
+        scoreBox.setY(topY);
+
+        Text scoreLabel = new Text("CURRENT SCORE");
+        scoreLabel.setFont(Font.font("Consolas", 18));
+        scoreLabel.setFill(Color.web("#4E342E")); // Deep brown text
+        scoreLabel.setX(startX + boxWidth + spacing + 15);
+        scoreLabel.setY(topY + 22);
+
+        scoreText = new Text("0");
+        scoreText.setFont(Font.font("Consolas", 20));
+        scoreText.setFill(Color.web("#3E2723")); // Darker brown
+        scoreText.setX(startX + boxWidth + spacing + 15);
+        scoreText.setY(topY + 48);
+
+        // Add to root
+        root.getChildren().addAll(
+                bestBox, bestLabel, bestValue,
+                scoreBox, scoreLabel, scoreText
+        );
 
         randomFillNumber(1);
         randomFillNumber(1);
