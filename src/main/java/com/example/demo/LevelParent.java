@@ -29,6 +29,7 @@ public  class LevelParent {
     private Group root; //the UI container
     private long score = 0;
     private Text scoreText = new Text();
+    private PauseScreen pauseScreen;
 
     private String currentLevelName = "Level 1";
 
@@ -390,6 +391,38 @@ public  class LevelParent {
                 bestBox, bestLabel, bestValue,
                 scoreBox, scoreLabel, scoreText
         );
+
+
+        // === PAUSE BUTTON ===
+
+        pauseScreen = new PauseScreen(
+                root,
+                () -> {
+                    if (!pauseScreen.isPaused()) {
+                        Platform.runLater(() -> root.requestFocus());
+                    }
+                },
+                () -> { // onGoLevels
+                    Group levelRoot = new Group();
+                    Scene levelScene = new Scene(levelRoot, 900, 750);
+                    LevelScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, Account.currentUsername, endGameScene, endGameRoot);
+                    primaryStage.setScene(levelScene);
+                    primaryStage.setFullScreen(true);
+                },
+                () -> { // onRetry
+                    root.getChildren().clear();
+                    LevelParent retry = new LevelParent();
+                    retry.setLevelName(currentLevelName);
+                    retry.game(gameScene, root, primaryStage, endGameScene, endGameRoot);
+                    Platform.runLater(() -> root.requestFocus());
+                }
+        );
+
+
+
+
+        // root.getChildren().add(pauseButton);
+        Platform.runLater(() -> gameScene.getRoot().requestFocus());
 
         randomFillNumber(1);
         randomFillNumber(1);
