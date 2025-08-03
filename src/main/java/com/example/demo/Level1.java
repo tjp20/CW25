@@ -13,7 +13,8 @@ public class Level1 extends LevelParent {
 
     public void launch(Stage stage, Scene endScene, Group endRoot) {
         LevelParent.setN(5);
-        setN(5); // 4x4 grid (default)
+        setN(5);
+        setLevelName("Level 1");
         Group root = new Group();
         Scene scene = new Scene(root, 900, 750, Color.web("#FFBFD2")); // any neutral color
 

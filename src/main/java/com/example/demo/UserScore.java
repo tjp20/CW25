@@ -3,6 +3,8 @@ package com.example.demo;
 import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserScore {
     private static final String SCORE_DIR = "scores";
@@ -55,5 +57,28 @@ public class UserScore {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public static List<String[]> getAllScoresSimple() {
+        List<String[]> entries = new ArrayList<>();
+        File dir = new File(SCORE_DIR);
+        if (!dir.exists()) return entries;
+
+        for (File file : dir.listFiles()) {
+            String username = file.getName().replace(".txt", "");
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(":");
+                    if (parts.length == 2) {
+                        String level = parts[0];
+                        String score = parts[1];
+                        entries.add(new String[]{username, level, score});
+                    }
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return entries;
     }
 }

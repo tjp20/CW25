@@ -29,6 +29,12 @@ public  class LevelParent {
     private long score = 0;
     private Text scoreText = new Text();
 
+    private String currentLevelName = "Level 1";
+
+    public void setLevelName(String name) {
+        this.currentLevelName = name;
+    }
+
 
 
 
@@ -338,7 +344,7 @@ public  class LevelParent {
         usernameText.relocate(750, 60);
         root.getChildren().add(usernameText);
 
-        long best = UserScore.getBestScore(Account.currentUsername, "Level " + n);
+        long best = UserScore.getBestScore(Account.currentUsername, currentLevelName);
         Text bestScoreText = new Text("Best: " + best);
         bestScoreText.setFont(Font.font(20));
         bestScoreText.setFill(Color.BLUE);
@@ -365,7 +371,7 @@ public  class LevelParent {
                 haveEmptyCell = LevelParent.this.haveEmptyCell();
                 if (haveEmptyCell == -1) {
                     if (LevelParent.this.canNotMove()) {
-                        UserScore.updateScore(Account.currentUsername, "Level " + n, score);
+                        UserScore.updateScore(Account.currentUsername, currentLevelName, score);
 
                         primaryStage.setScene(endGameScene);
 

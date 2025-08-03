@@ -11,7 +11,8 @@ import javafx.scene.text.Text;
 public class Level2 extends LevelParent {
 
     public void launch(Stage stage, Scene endScene, Group endRoot) {
-        setN(4); // 4x4 grid (default)
+        setN(4);
+        setLevelName("Level 2");
         Group root = new Group();
         Scene scene = new Scene(root, 900, 750, Color.web("#FFBFD2"));
 

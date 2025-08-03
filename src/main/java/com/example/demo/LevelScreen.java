@@ -93,7 +93,7 @@ public class LevelScreen {
         level1Btn.setOnAction(e -> new Level1().launch(primaryStage, endGameScene, endgameRoot));
         level2Btn.setOnAction(e -> new Level2().launch(primaryStage, endGameScene, endgameRoot));
         level3Btn.setOnAction(e -> new Level3().launch(primaryStage, endGameScene, endgameRoot));
-        leaderboardBtn.setOnAction(e -> System.out.println("Leaderboard clicked!"));
+        leaderboardBtn.setOnAction(e -> LeaderboardScreen.show(primaryStage, levelScene));
 
         ExitButton.addTo(levelRoot, primaryStage, levelScene.getWidth());
     }
