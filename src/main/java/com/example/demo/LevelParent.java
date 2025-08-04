@@ -27,6 +27,7 @@ public  class LevelParent {
     private Cell[][] cells;
 
     private Group root; //the UI container
+    private GameController gameController;
     private long score = 0;
     private Text scoreText = new Text();
     private PauseScreen pauseScreen;
@@ -125,206 +126,6 @@ public  class LevelParent {
         return -1;
     }
 
-    private int passDestination(int i, int j, char direct) {
-        int coordinate = j;
-        if (direct == 'l') {
-            for (int k = j - 1; k >= 0; k--) {
-                if (cells[i][k].getNumber() != 0) {
-                    coordinate = k + 1;
-                    break;
-                } else if (k == 0) {
-                    coordinate = 0;
-                }
-            }
-            return coordinate;
-        }
-        coordinate = j;
-        if (direct == 'r') {
-            for (int k = j + 1; k <= n - 1; k++) {
-                if (cells[i][k].getNumber() != 0) {
-                    coordinate = k - 1;
-                    break;
-                } else if (k == n - 1) {
-                    coordinate = n - 1;
-                }
-            }
-            return coordinate;
-        }
-        coordinate = i;
-        if (direct == 'd') {
-            for (int k = i + 1; k <= n - 1; k++) {
-                if (cells[k][j].getNumber() != 0) {
-                    coordinate = k - 1;
-                    break;
-
-                } else if (k == n - 1) {
-                    coordinate = n - 1;
-                }
-            }
-            return coordinate;
-        }
-        coordinate = i;
-        if (direct == 'u') {
-            for (int k = i - 1; k >= 0; k--) {
-                if (cells[k][j].getNumber() != 0) {
-                    coordinate = k + 1;
-                    break;
-                } else if (k == 0) {
-                    coordinate = 0;
-                }
-            }
-            return coordinate;
-        }
-        return -1;
-    }
-
-    private void moveLeft() {
-        printBoardState("LEFT - BEFORE");
-        for (int i = 0; i < n; i++) {
-            for (int j = 1; j < n; j++) {
-                moveHorizontally(i, j, passDestination(i, j, 'l'), -1);
-            }
-            for (int j = 0; j < n; j++) {
-                cells[i][j].setModify(false);
-            }
-        }
-
-        //debug
-
-        printBoardState("LEFT - AFTER");
-
-
-    }
-
-
-
-
-    private void moveRight() {
-
-        printBoardState("RIGHT - BEFORE");
-        for (int i = 0; i < n; i++) {
-            for (int j = n - 1; j >= 0; j--) {
-                moveHorizontally(i, j, passDestination(i, j, 'r'), 1);
-            }
-
-
-            for (int j = 0; j < n; j++) {
-                cells[i][j].setModify(false);
-            }
-        }
-        printBoardState("RIGHT - AFTER");
-    }
-
-    private void moveUp() {
-        printBoardState("UP - BEFORE");
-        for (int j = 0; j < n; j++) {
-            for (int i = 1; i < n; i++) {
-                moveVertically(i, j, passDestination(i, j, 'u'), -1);
-            }
-            for (int i = 0; i < n; i++) {
-                cells[i][j].setModify(false);
-            }
-        }
-        printBoardState("UP - AFTER");
-    }
-
-    private void moveDown() {
-        printBoardState("DOWN - BEFORE");
-        for (int j = 0; j < n; j++) {
-            for (int i = n - 1; i >= 0; i--) {
-                moveVertically(i, j, passDestination(i, j, 'd'), 1);
-            }
-            for (int i = 0; i < n; i++) {
-                cells[i][j].setModify(false);
-            }
-        }
-        printBoardState("DOWN - AFTER");
-    }
-
-    private boolean isValidDesH(int i, int j, int des, int sign) {
-        if (des + sign < n && des + sign >= 0) {
-            if (cells[i][des + sign].getNumber() == cells[i][j].getNumber() && !cells[i][des + sign].getModify()
-                    && cells[i][des + sign].getNumber() != 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private void moveHorizontally(int i, int j, int des, int sign) {
-        /*if (isValidDesH(i, j, des, sign)) {
-            cells[i][j].adder(cells[i][des + sign]);
-            cells[i][des].setModify(true);
-        } */
-        if (isValidDesH(i, j, des, sign)) {
-            int mergedValue = cells[i][j].getNumber() + cells[i][des + sign].getNumber();
-            cells[i][j].adder(cells[i][des + sign]);
-            score += mergedValue;
-            ScoreDebugger.debugMergeScore(score, mergedValue); // added this line
-            scoreText.setText(String.valueOf(score));
-            cells[i][des+sign].setModify(true);
-
-
-        }
-        else if (des != j) {
-            cells[i][j].changeCell(cells[i][des]);
-        }
-    }
-
-    private boolean isValidDesV(int i, int j, int des, int sign) {
-        if (des + sign < n && des + sign >= 0)
-            if (cells[des + sign][j].getNumber() == cells[i][j].getNumber() && !cells[des + sign][j].getModify()
-                    && cells[des + sign][j].getNumber() != 0) {
-                return true;
-            }
-        return false;
-    }
-
-    private void moveVertically(int i, int j, int des, int sign) {
-       /* if (isValidDesV(i, j, des, sign)) {
-            cells[i][j].adder(cells[des + sign][j]);
-            cells[des][j].setModify(true);*/
-        if (isValidDesV(i, j, des, sign)) {
-            int mergedValue = cells[i][j].getNumber() + cells[des + sign][j].getNumber();
-            cells[i][j].adder(cells[des + sign][j]);
-            score += mergedValue;
-            ScoreDebugger.debugMergeScore(score, mergedValue);//added this
-            scoreText.setText(String.valueOf(score));
-            cells[des+sign][j].setModify(true);
-        }
-        else if (des != i) {
-            cells[i][j].changeCell(cells[des][j]);
-        }
-    }
-
-    private boolean haveSameNumberNearly(int i, int j) {
-        if (i < n - 1 && j < n - 1) {
-            if (cells[i + 1][j].getNumber() == cells[i][j].getNumber())
-                return true;
-            if (cells[i][j + 1].getNumber() == cells[i][j].getNumber())
-                return true;
-        }
-        return false;
-    }
-
-    private boolean canNotMove() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (haveSameNumberNearly(i, j)) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    private void sumCellNumbersToScore() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                score += cells[i][j].getNumber();
-            }
-        }
-    }
 
     void game(Scene gameScene, Group root, Stage primaryStage, Scene endGameScene, Group endGameRoot) {
         this.root = root;
@@ -341,6 +142,11 @@ public  class LevelParent {
 
         }
 
+        gameController = new GameController(cells, n, mergedScore -> {
+            score += mergedScore;
+            scoreText.setText(String.valueOf(score));
+            ScoreDebugger.debugMergeScore(score,(int) mergedScore);
+        });
 
         // Username box
         UsernameDisplay.addTo(root, Account.currentUsername, 50, 30);
@@ -439,21 +245,25 @@ public  class LevelParent {
         gameScene.addEventHandler(KeyEvent.KEY_PRESSED, key ->{
             Platform.runLater(() -> {
                 if (pauseScreen != null && pauseScreen.isPaused()) return;
+                KeyCode code = key.getCode();
+                if (code != KeyCode.UP && code != KeyCode.DOWN && code != KeyCode.LEFT && code != KeyCode.RIGHT) {
+                    return;  // Ignore Enter, Space, or other keys
+                }
                 int haveEmptyCell;
                 if (key.getCode() == KeyCode.DOWN) {
-                    LevelParent.this.moveDown();
+                    gameController.moveDown();
                 } else if (key.getCode() == KeyCode.UP) {
-                    LevelParent.this.moveUp();
+                    gameController.moveUp();
                 } else if (key.getCode() == KeyCode.LEFT) {
-                    LevelParent.this.moveLeft();
+                    gameController.moveLeft();
                 } else if (key.getCode() == KeyCode.RIGHT) {
-                    LevelParent.this.moveRight();
+                    gameController.moveRight();
                 }
                 // GameScene.this.sumCellNumbersToScore();// we are not adding number by just moving left and right
                 scoreText.setText(score + "");
                 haveEmptyCell = LevelParent.this.haveEmptyCell();
                 if (haveEmptyCell == -1) {
-                    if (LevelParent.this.canNotMove()) {
+                    if (gameController.canNotMove()) {
                         UserScore.updateScore(Account.currentUsername, currentLevelName, score);
 
                         primaryStage.setScene(endGameScene);
@@ -515,16 +325,7 @@ public  class LevelParent {
     }*/
 
 
-    private void printBoardState(String direction) {
-        System.out.println("\n" + direction + " MOVE");
-        for (int i = 0; i < n; i++) {
-            StringBuilder row = new StringBuilder();
-            for (int j = 0; j < n; j++) {
-                row.append("[").append(cells[i][j].getNumber()).append("]");
-            }
-            System.out.println("Row " + i + ": " + row);
-        }
-    }
+
 
 
     private void playPopAnimation(Text text) {
