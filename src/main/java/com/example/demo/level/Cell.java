@@ -1,7 +1,6 @@
 package com.example.demo.level;
 
 
-//import com.example.demo.TextMaker;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -38,6 +37,8 @@ public class Cell {
     }
 
     public void changeCell(Cell cell) {
+
+        //Logic part
         TextMaker.changeTwoText(textClass, cell.getTextClass());
         root.getChildren().remove(cell.getTextClass());
         root.getChildren().remove(textClass);
@@ -52,6 +53,9 @@ public class Cell {
         cell.setColorByNumber(cell.getNumber());
     }
 
+
+
+
     public void adder(Cell cell) {
         cell.getTextClass().setText((cell.getNumber() + this.getNumber()) + "");
         textClass.setText("0");
@@ -60,7 +64,7 @@ public class Cell {
         setColorByNumber(getNumber());
     }
 
-    public void setColorByNumber(int number) {
+    void setColorByNumber(int number) {
         switch (number) {
             case 0:
                 rectangle.setFill(Color.rgb(224, 226, 226, 0.5));
@@ -118,5 +122,11 @@ public class Cell {
     private Text getTextClass() {
         return textClass;
     }
+
+    /*public void setNumber(int value) {
+        this.textClass.setText(String.valueOf(value));
+        setColorByNumber(value);
+    }*/
+
 
 }

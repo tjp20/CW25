@@ -306,55 +306,6 @@ public  class LevelParent {
     }
 
 
-
-
-    //ADDED
-    //left
-  /*  private void printRowMerge(int rowIndex, String direction) {
-        StringBuilder before = new StringBuilder();
-        StringBuilder after = new StringBuilder();
-
-        // Get the current row before merging
-        for (int j = 0; j < n; j++) {
-            before.append("[").append(cells[rowIndex][j].getNumber()).append("]");
-        }
-
-        // Copy the row values into an array
-        int[] row = new int[n];
-        for (int j = 0; j < n; j++) {
-            row[j] = cells[rowIndex][j].getNumber();
-        }
-
-        // Simulate a merge (only one pass, like 2048)
-        for (int j = 0; j < n - 1; j++) {
-            if (row[j] != 0 && row[j] == row[j + 1]) {
-                row[j] *= 2;
-                row[j + 1] = 0;
-            }
-        }
-
-        // Compact the row (shift everything left)
-        int[] compacted = new int[n];
-        int idx = 0;
-        for (int val : row) {
-            if (val != 0) {
-                compacted[idx++] = val;
-            }
-        }
-
-        // Build the 'after' view
-        for (int j = 0; j < n; j++) {
-            after.append("[").append(compacted[j]).append("]");
-        }
-
-        // Print nicely formatted row
-        System.out.println("Merged row " + rowIndex + " " + direction + ": " + before + " → " + after);
-    }*/
-
-
-
-
-
     private void playPopAnimation(Text text) {
         ScaleTransition scale = new ScaleTransition(Duration.millis(200), text);
         scale.setFromX(0.1);
