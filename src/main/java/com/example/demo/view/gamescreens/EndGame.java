@@ -1,5 +1,6 @@
 package com.example.demo.view.gamescreens;
 
+import com.example.demo.level.Level1;
 import com.example.demo.level.LevelParent;
 import com.example.demo.user.Account;
 import javafx.event.EventHandler;
@@ -30,7 +31,7 @@ public class EndGame {
         return singleInstance;
     }
 
-    public void endGameShow(Scene endGameScene, Group root, Stage primaryStage,long score){
+    public void endGameShow(Scene endGameScene, Group root, Stage primaryStage,long score, Level1 level1){
         endGameScene.setFill(Color.web("#8df0b0"));
         double sceneWidth = 900;
 
@@ -89,6 +90,7 @@ public class EndGame {
         rankButton.setOnMouseEntered(e -> rankButton.setStyle(baseStyle + hoverStyle));
         rankButton.setOnMouseExited(e -> rankButton.setStyle(baseStyle));
         rankButton.setOnAction(e -> {
+            if(level1!=null) level1.stopCountdown();
             Group rankRoot = new Group();
             Scene rankScene = new Scene(rankRoot, 900, 750);
             RankScreen.show(rankRoot, LevelParent.getLevelName(), primaryStage, Account.currentUsername, endGameScene, root);
@@ -103,10 +105,12 @@ public class EndGame {
         levelButton.setOnMouseEntered(e -> levelButton.setStyle(baseStyle + hoverStyle));
         levelButton.setOnMouseExited(e -> levelButton.setStyle(baseStyle));
         levelButton.setOnAction(e -> {
+            if(level1 !=null) level1.stopCountdown();
             Group levelRoot = new Group();
             Scene levelScene = new Scene(levelRoot, 900, 750);
             LevelSelectScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, Account.currentUsername, endGameScene, root);
             primaryStage.setScene(levelScene);
+            primaryStage.setFullScreen(true);
         });
 
         // Add all to VBox
@@ -116,4 +120,5 @@ public class EndGame {
 
 
     }
+
 }

@@ -35,7 +35,7 @@ public class Account implements Comparable<Account> {
         return userName;
     }
 
-    static Account accountHaveBeenExist(String userName){
+    public static Account accountHaveBeenExist(String userName){
         for(Account account : accounts){
             if(account.getUserName().equals(userName)){
                 return account;
@@ -45,7 +45,7 @@ public class Account implements Comparable<Account> {
 
     }
 
-    static Account makeNewAccount(String userName){
+    public static Account makeNewAccount(String userName){
         Account account = new Account(userName);
         accounts.add(account);
         try (PrintWriter out = new PrintWriter(new FileWriter("accounts.txt", true))) {

@@ -19,7 +19,14 @@ import javafx.util.Duration;
 
 public class Level1 extends LevelParent {
 
+    private Timeline countdown;
+
+
     public void launch(Stage stage, Scene endScene, Group endRoot) {
+
+        if (countdown != null) {
+            countdown.stop();
+        }
         LevelParent.setN(5);
         setN(5);
         setLevelName("Level 1");
@@ -45,31 +52,50 @@ public class Level1 extends LevelParent {
 
         // Timer countdown: 60 seconds
         final int[] timeLeft = {60};
-        final Timeline[] countdown = new Timeline[1];
+        // final Timeline[] countdown = new Timeline[1];
 
-        countdown[0] = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+        countdown = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             timeLeft[0]--;
             timerLabel.setText("Time Left: " + timeLeft[0] + "s");
 
             if (timeLeft[0] <= 0) {
-                countdown[0].stop();
+                countdown.stop();
 
                 //  Disable key input by removing handler
                 scene.setOnKeyPressed(null);
 
+                // Clear previous end screen elements
+                endRoot.getChildren().clear();
+
                 //  Show End Game Screen
                 UserScore.updateScore(Account.currentUsername, getLevelName(), getScore()); // optional
-                EndGame.getInstance().endGameShow(endScene, endRoot, stage, getScore());
+                EndGame.getInstance().endGameShow(endScene, endRoot, stage, getScore(),this);
 
                 //  Change scene to end game
                 stage.setScene(endScene);
             }
         }));
-        countdown[0].setCycleCount(Timeline.INDEFINITE);
-        countdown[0].play();
+        countdown.setCycleCount(Timeline.INDEFINITE);
+        countdown.play();
+
+
+
+
 
 
         stage.setScene(scene);
         stage.setFullScreen(true);
     }
+    public void stopCountdown() {
+        if (countdown != null) {
+            countdown.stop();
+        }
+    }
+    public void resumeCountdown() {
+        if (countdown != null) {
+            countdown.play();
+        }
+    }
+
+
 }

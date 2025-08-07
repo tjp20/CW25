@@ -136,6 +136,8 @@ public  class LevelParent {
 
 
     public void game(Scene gameScene, Group root, Stage primaryStage, Scene endGameScene, Group endGameRoot) {
+        this.score = 0;
+        ScoreDebugger.reset();
         this.root = root;
         this.cells = new Cell[n][n];  // Now uses updated grid size
         double gridOffsetX = 350; // move grid 400 pixels to the right
@@ -222,7 +224,18 @@ public  class LevelParent {
                 root,
                 () -> {
                     if (!pauseScreen.isPaused()) {
+                        // Resume game
                         Platform.runLater(() -> root.requestFocus());
+
+                        //  Resume timer if Level 1
+                        if (this instanceof Level1) {
+                            ((Level1) this).resumeCountdown();
+                        }
+                    } else {
+                        //  Pause timer if Level 1
+                        if (this instanceof Level1) {
+                            ((Level1) this).stopCountdown();
+                        }
                     }
                 },
                 () -> { // onGoLevels
@@ -234,6 +247,7 @@ public  class LevelParent {
                 },
                 () -> { // onRetry
                     root.getChildren().clear();
+                    ScoreDebugger.reset();
                     if (currentLevelName.equals("Level 1")) {
                         Level1 retry = new Level1();
                         retry.launch(primaryStage, endGameScene, endGameRoot); // includes timer
@@ -278,10 +292,10 @@ public  class LevelParent {
                 if (haveEmptyCell == -1) {
                     if (gameController.canNotMove()) {
                         UserScore.updateScore(Account.currentUsername, currentLevelName, score);
-
+                        endGameRoot.getChildren().clear();
                         primaryStage.setScene(endGameScene);
 
-                        EndGame.getInstance().endGameShow(endGameScene, endGameRoot, primaryStage, score);
+                        EndGame.getInstance().endGameShow(endGameScene, endGameRoot, primaryStage, score, null);
                         root.getChildren().clear();
                         score = 0;
                     }
