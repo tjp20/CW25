@@ -88,6 +88,9 @@ public class CreateAccountScreen {
             if (username.isEmpty()) {
                 feedback.setText("Please enter a name.");
                 feedback.setFill(Color.RED);
+            } else if (!username.equals(username.toLowerCase())) {
+                feedback.setText("Username must be in lowercase only.");
+                feedback.setFill(Color.RED);
             } else if (Account.accountHaveBeenExist(username) != null) {
                 feedback.setText("Account already exists. Please Login");
                 feedback.setFill(Color.RED);
@@ -108,7 +111,6 @@ public class CreateAccountScreen {
                 }).start();
             }
         });
-
         // Back button logic
         backButton.setOnAction(e -> {
             primaryStage.setScene(accountScene);

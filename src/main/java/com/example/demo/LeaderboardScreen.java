@@ -79,7 +79,10 @@ public class LeaderboardScreen {
             backButton.setStyle("-fx-background-color: transparent;");
             backButton.setLayoutX(20);
             backButton.setLayoutY(20);
-            backButton.setOnAction(e -> primaryStage.setScene(backScene));
+            backButton.setOnAction(e -> {
+                primaryStage.setScene(backScene);
+                primaryStage.setFullScreen(true);
+            });
             root.getChildren().add(backButton);
         } catch (Exception e) {
             System.out.println("BackButton.png not found.");

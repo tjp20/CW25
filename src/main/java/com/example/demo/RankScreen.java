@@ -67,7 +67,7 @@ public class RankScreen {
         exitButton.setOnAction(e -> {
             Group levelRoot = new Group();
             Scene levelScene = new Scene(levelRoot, 900, 750);
-            LevelScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, username, endGameScene, endGameRoot);
+            LevelSelectScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, username, endGameScene, endGameRoot);
             primaryStage.setScene(levelScene);
             primaryStage.setFullScreen(true);
         });

@@ -220,16 +220,21 @@ public  class LevelParent {
                 () -> { // onGoLevels
                     Group levelRoot = new Group();
                     Scene levelScene = new Scene(levelRoot, 900, 750);
-                    LevelScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, Account.currentUsername, endGameScene, endGameRoot);
+                    LevelSelectScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, Account.currentUsername, endGameScene, endGameRoot);
                     primaryStage.setScene(levelScene);
                     primaryStage.setFullScreen(true);
                 },
                 () -> { // onRetry
                     root.getChildren().clear();
-                    LevelParent retry = new LevelParent();
-                    retry.setLevelName(currentLevelName);
-                    retry.game(gameScene, root, primaryStage, endGameScene, endGameRoot);
-                    Platform.runLater(() -> root.requestFocus());
+                    if (currentLevelName.equals("Level 1")) {
+                        Level1 retry = new Level1();
+                        retry.launch(primaryStage, endGameScene, endGameRoot); // includes timer
+                    } else {
+                        LevelParent retry = new LevelParent();
+                        retry.setLevelName(currentLevelName);
+                        retry.game(gameScene, root, primaryStage, endGameScene, endGameRoot);
+                        Platform.runLater(() -> root.requestFocus());
+                    }
                 }
         );
 

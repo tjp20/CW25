@@ -13,7 +13,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class AccountScreen {
+public class LoginScreen {
 
     public static void addToAccountScreen(Group accountRoot, Scene accountScene, Scene getAccountScene, Stage primaryStage, Scene levelScene, Group levelRoot, Scene endGameScene, Group endGameRoot) {
         //  Fill background with matching color
@@ -99,7 +99,7 @@ public class AccountScreen {
                 Account.currentUsername = existing.getUserName();
                 resultText.setText("Welcome back, " + existing.getUserName() + "!");
                 resultText.setFill(Color.GREEN);
-                LevelScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, existing.getUserName(), endGameScene, endGameRoot);
+                LevelSelectScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, existing.getUserName(), endGameScene, endGameRoot);
                 primaryStage.setScene(levelScene);
             } else {
                 resultText.setText("Account not found. Please Create Account");

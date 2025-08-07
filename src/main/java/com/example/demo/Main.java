@@ -8,9 +8,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 import java.util.Scanner;
 
@@ -62,7 +59,7 @@ public class Main extends Application {
         // GET ACCOUNT
         Group getAccountRoot = new Group();
         Scene getAccountScene = new Scene(getAccountRoot, screenWidth, screenHeight, Color.rgb(200, 20, 100, 0.2));
-        AccountScreen.addToAccountScreen(accountRoot, accountScene, getAccountScene, primaryStage, levelScene, levelRoot, endGameScene, endgameRoot);
+        LoginScreen.addToAccountScreen(accountRoot, accountScene, getAccountScene, primaryStage, levelScene, levelRoot, endGameScene, endgameRoot);
         CreateAccountScreen.addToCreateAccountScreen(getAccountRoot, getAccountScene, accountScene, primaryStage);
 
         /*Text testLabel = new Text("This is the GET ACCOUNT SCREEN");

@@ -8,11 +8,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class LevelScreen {
+public class LevelSelectScreen {
 
     public static void addToLevelScreen(Group levelRoot, Scene levelScene, Stage primaryStage, String username, Scene endGameScene, Group endgameRoot) {
         levelRoot.getChildren().clear();
@@ -24,7 +23,7 @@ public class LevelScreen {
         levelRoot.getChildren().add(bgFill);
 
         try {
-            Image bg = new Image(LevelScreen.class.getResourceAsStream("/com/example/demo/LevelSelectBackground.png"));
+            Image bg = new Image(LevelSelectScreen.class.getResourceAsStream("/com/example/demo/LevelSelectBackground.png"));
             ImageView bgView = new ImageView(bg);
             bgView.setPreserveRatio(true);
             double fixedWidth = 1600;

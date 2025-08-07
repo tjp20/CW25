@@ -12,11 +12,11 @@ public class Cell {
     private Text textClass;
     private boolean modify = false;
 
-    void setModify(boolean modify) {
+    public void setModify(boolean modify) {
         this.modify = modify;
     }
 
-    boolean getModify() {
+    public boolean getModify() {
         return modify;
     }
 

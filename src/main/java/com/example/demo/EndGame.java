@@ -103,7 +103,7 @@ public class EndGame {
         levelButton.setOnAction(e -> {
             Group levelRoot = new Group();
             Scene levelScene = new Scene(levelRoot, 900, 750);
-            LevelScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, Account.currentUsername, endGameScene, root);
+            LevelSelectScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, Account.currentUsername, endGameScene, root);
             primaryStage.setScene(levelScene);
         });
 
