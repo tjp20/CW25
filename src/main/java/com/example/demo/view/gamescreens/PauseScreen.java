@@ -19,7 +19,6 @@ public class PauseScreen {
             Runnable onGoLevels,
             Runnable onRetry
     ) {
-        //  Main Pause Button
         button = new Button();
         button.setLayoutX(35);
         button.setLayoutY(100);
@@ -31,13 +30,15 @@ public class PauseScreen {
         imageView.setFitHeight(63);
         button.setGraphic(imageView);
 
-        // Overlay Setup
-        Rectangle dimBackground = new Rectangle(900, 750, Color.rgb(0, 0, 0, 0.5));
+        double sceneWidth = root.getScene().getWidth();
+        double sceneHeight = root.getScene().getHeight();
+
+        Rectangle dimBackground = new Rectangle(sceneWidth, sceneHeight, Color.rgb(0, 0, 0, 0.5));
 
         double buttonWidth = 200;
         double buttonHeight = 50;
-        double centerX = (900 - buttonWidth) / 2;
-        double startY = 275;
+        double centerX = (sceneWidth - buttonWidth) / 2 + 250;
+        double startY = sceneHeight / 2 - 100;
         double spacing = 70;
 
         Button resumeBtn = createButton("Resume", centerX, startY, "#ffcc80", "#f2b14c", buttonWidth, buttonHeight, () -> {
@@ -47,7 +48,7 @@ public class PauseScreen {
         });
 
         Button levelsBtn = createButton("Quit", centerX, startY + spacing, "#a5d6a7", "#81c784", buttonWidth, buttonHeight, onGoLevels);
-        Button retryBtn  = createButton("Retry",  centerX, startY + 2 * spacing, "#f48fb1", "#f06292", buttonWidth, buttonHeight, onRetry);
+        Button retryBtn  = createButton("Retry", centerX, startY + 2 * spacing, "#f48fb1", "#f06292", buttonWidth, buttonHeight, onRetry);
 
         overlay.getChildren().addAll(dimBackground, resumeBtn, levelsBtn, retryBtn);
 
@@ -58,6 +59,9 @@ public class PauseScreen {
         });
 
         root.getChildren().add(button);
+
+        root.getScene().widthProperty().addListener((obs, oldVal, newVal) -> dimBackground.setWidth(newVal.doubleValue()));
+        root.getScene().heightProperty().addListener((obs, oldVal, newVal) -> dimBackground.setHeight(newVal.doubleValue()));
     }
 
     private Button createButton(String label, double x, double y, String baseColor, String hoverColor, double width, double height, Runnable action) {
