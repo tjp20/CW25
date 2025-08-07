@@ -1,5 +1,8 @@
-package com.example.demo;
+package com.example.demo.level;
 
+import com.example.demo.user.Account;
+import com.example.demo.view.gamescreens.EndGame;
+import com.example.demo.user.UserScore;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;

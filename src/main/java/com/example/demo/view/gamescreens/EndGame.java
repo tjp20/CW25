@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.view.gamescreens;
 
+import com.example.demo.level.LevelParent;
+import com.example.demo.user.Account;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Group;

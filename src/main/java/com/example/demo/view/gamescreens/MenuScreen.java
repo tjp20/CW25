@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.view.gamescreens;
 
+import com.example.demo.view.ExitButton;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

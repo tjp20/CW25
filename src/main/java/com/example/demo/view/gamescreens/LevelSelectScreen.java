@@ -1,5 +1,10 @@
-package com.example.demo;
+package com.example.demo.view.gamescreens;
 
+import com.example.demo.level.Level1;
+import com.example.demo.level.Level2;
+import com.example.demo.level.Level3;
+import com.example.demo.view.ExitButton;
+import com.example.demo.view.UsernameDisplay;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Scene;

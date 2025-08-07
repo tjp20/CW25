@@ -1,5 +1,13 @@
-package com.example.demo;
+package com.example.demo.level;
 
+import com.example.demo.controller.GameController;
+import com.example.demo.debug.ScoreDebugger;
+import com.example.demo.user.Account;
+import com.example.demo.user.UserScore;
+import com.example.demo.view.UsernameDisplay;
+import com.example.demo.view.gamescreens.EndGame;
+import com.example.demo.view.gamescreens.LevelSelectScreen;
+import com.example.demo.view.gamescreens.PauseScreen;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -127,7 +135,7 @@ public  class LevelParent {
     }
 
 
-    void game(Scene gameScene, Group root, Stage primaryStage, Scene endGameScene, Group endGameRoot) {
+    public void game(Scene gameScene, Group root, Stage primaryStage, Scene endGameScene, Group endGameRoot) {
         this.root = root;
         this.cells = new Cell[n][n];  // Now uses updated grid size
         double gridOffsetX = 350; // move grid 400 pixels to the right

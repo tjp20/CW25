@@ -1,4 +1,6 @@
-package com.example.demo;
+package com.example.demo.controller;
+
+import com.example.demo.level.Cell;
 
 public class GameController {
 

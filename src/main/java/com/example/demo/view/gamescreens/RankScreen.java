@@ -1,5 +1,6 @@
-package com.example.demo;
+package com.example.demo.view.gamescreens;
 
+import com.example.demo.user.UserScore;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;

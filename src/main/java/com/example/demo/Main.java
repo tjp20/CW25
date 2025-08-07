@@ -1,5 +1,10 @@
 package com.example.demo;
 
+import com.example.demo.level.LevelParent;
+import com.example.demo.user.Account;
+import com.example.demo.user.CreateAccountScreen;
+import com.example.demo.user.LoginScreen;
+import com.example.demo.view.gamescreens.MenuScreen;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Group;

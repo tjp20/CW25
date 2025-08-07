@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.view.gamescreens;
 
 import javafx.scene.Group;
 import javafx.scene.control.Button;

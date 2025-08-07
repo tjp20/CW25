@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.debug;
 
 public class ScoreDebugger {
     private static long previousScore = 0;

@@ -1,24 +1,12 @@
-package com.example.demo;
+package com.example.demo.user;
 
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.io.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
-
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class Account implements Comparable<Account> {
     private long score = 0;
