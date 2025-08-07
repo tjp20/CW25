@@ -7,6 +7,12 @@ public class GameController {
     private final Cell[][] cells;
     private final int n;
     private final ScoreUpdater scoreUpdater;
+    private boolean moved;
+
+    public boolean hasMoved() {
+        return moved;
+    }
+
 
 
     public interface ScoreUpdater {
@@ -80,6 +86,7 @@ public class GameController {
     }
 
     public void moveLeft() {
+        moved = false;
         printBoardState("LEFT - BEFORE");
         for (int i = 0; i < n; i++) {
             for (int j = 1; j < n; j++) {
@@ -101,7 +108,7 @@ public class GameController {
 
 
     public void moveRight() {
-
+        moved = false;
         printBoardState("RIGHT - BEFORE");
         for (int i = 0; i < n; i++) {
             for (int j = n - 1; j >= 0; j--) {
@@ -117,6 +124,7 @@ public class GameController {
     }
 
     public void moveUp() {
+        moved = false;
         printBoardState("UP - BEFORE");
         for (int j = 0; j < n; j++) {
             for (int i = 1; i < n; i++) {
@@ -130,6 +138,7 @@ public class GameController {
     }
 
     public void moveDown() {
+        moved = false;
         printBoardState("DOWN - BEFORE");
         for (int j = 0; j < n; j++) {
             for (int i = n - 1; i >= 0; i--) {
@@ -162,11 +171,13 @@ public class GameController {
             cells[i][j].adder(cells[i][des + sign]);
             cells[i][des + sign].setModify(true);
             scoreUpdater.updateScore(merged);
+            moved = true;
 
 
         }
-        else if (des != j) {
+        else if (des != j && cells[i][j].getNumber() != 0) {
             cells[i][j].changeCell(cells[i][des]);
+            moved = true;
         }
     }
 
@@ -188,9 +199,11 @@ public class GameController {
             cells[i][j].adder(cells[des + sign][j]);
             cells[des + sign][j].setModify(true);
             scoreUpdater.updateScore(merged);
+            moved = true;
         }
-        else if (des != i) {
+        else if (des != i && cells[i][j].getNumber() != 0) {
             cells[i][j].changeCell(cells[des][j]);
+            moved = true;
         }
     }
 

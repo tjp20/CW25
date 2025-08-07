@@ -285,7 +285,7 @@ public  class LevelParent {
                         root.getChildren().clear();
                         score = 0;
                     }
-                } else if(haveEmptyCell == 1)
+                } else if(haveEmptyCell == 1 && gameController.hasMoved())
                     LevelParent.this.randomFillNumber(2);
             });
         });
