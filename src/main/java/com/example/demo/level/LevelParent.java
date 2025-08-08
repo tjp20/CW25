@@ -18,123 +18,93 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.util.Random;
 import javafx.animation.ScaleTransition;
 import javafx.util.Duration;
 
 
+/**
+ * The LevelParent class provides shared logic and UI components
+ * for all game levels (e.g., Level1, Level2, Level3).
+ * It includes setup of the grid, scoring, UI, pause handling, and tile logic.
+ */
 
 public  class LevelParent {
+    // Static Fields
     private static int HEIGHT = 700;
     private static int n = 4;
     private final static int distanceBetweenCells = 10;
-    private static double LENGTH = (HEIGHT - ((n + 1) * distanceBetweenCells)) / (double) n;
+    protected static double LENGTH = (HEIGHT - ((n + 1) * distanceBetweenCells)) / (double) n;
+
+
+    //Instance Fields
+    protected Cell[][] cells;
+
+    protected Group root; //the UI container
+    protected GameController gameController;
+    protected Text scoreText = new Text();
+    protected PauseScreen pauseScreen;
+
+    protected String currentLevelName = "Level 1";
+    protected static String levelName = "Level 1";
+
     private TextMaker textMaker = TextMaker.getSingleInstance();
-    //private Cell[][] cells = new Cell[n][n];
-    private Cell[][] cells;
-
-    private Group root; //the UI container
-    private GameController gameController;
     private long score = 0;
-    private Text scoreText = new Text();
-    private PauseScreen pauseScreen;
-
-    private String currentLevelName = "Level 1";
-    private static String levelName = "Level 1";
 
 
-
-    public void setLevelName(String name) {
-        this.currentLevelName = name;
-        levelName = name;
-    }
+    /**
+     * Gets the static name of the level.
+     * @return current level name
+     */
     public static String getLevelName() {
         return levelName;
     }
 
-
-
-
-
-
+    /**
+     * Sets the grid size (n x n) for the current level.
+     * Also updates LENGTH for cell sizing.
+     * @param number Grid size
+     */
     static void setN(int number) {
         n = number;
         LENGTH = (HEIGHT - ((n + 1) * distanceBetweenCells)) / (double) n;
     }
 
+    /**
+     * Gets the length of a single grid cell.
+     * @return length in pixels
+     */
     static double getLENGTH() {
         return LENGTH;
     }
 
-    private void randomFillNumber(int turn) {
-
-        Cell[][] emptyCells = new Cell[n][n];
-        int a = 0;
-        int b = 0;
-        int aForBound=0,bForBound=0;
-        outer:
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (cells[i][j].getNumber() == 0) {
-                    emptyCells[a][b] = cells[i][j];
-                    if (b < n-1) {
-                        bForBound=b;
-                        b++;
-
-                    } else {
-                        aForBound=a;
-                        a++;
-                        b = 0;
-                        if(a==n)
-                            break outer;
-                    }
-                }
-            }
-        }
-
-
-
-        Text text;
-        Random random = new Random();
-        boolean putTwo = true;
-        if (random.nextInt() % 2 == 0)
-            putTwo = false;
-        int xCell, yCell;
-        xCell = random.nextInt(aForBound+1);
-        yCell = random.nextInt(bForBound+1);
-        if (putTwo) {
-            text = textMaker.madeText("2", emptyCells[xCell][yCell].getX(), emptyCells[xCell][yCell].getY(), root);
-            emptyCells[xCell][yCell].setTextClass(text);
-            root.getChildren().add(text);
-            emptyCells[xCell][yCell].setColorByNumber(2);
-            //
-            playPopAnimation(text);
-
-        } else {
-            text = textMaker.madeText("4", emptyCells[xCell][yCell].getX(), emptyCells[xCell][yCell].getY(), root);
-            emptyCells[xCell][yCell].setTextClass(text);
-            root.getChildren().add(text);
-            emptyCells[xCell][yCell].setColorByNumber(4);
-            //
-            playPopAnimation(text);
-
-        }
-    }
-
-    private int  haveEmptyCell() {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (cells[i][j].getNumber() == 0)
-                    return 1;
-                if(cells[i][j].getNumber() == 2048)
-                    return 0;
-            }
-        }
-        return -1;
+    /**
+     * Sets the level name (both instance and static fields).
+     * @param name New level name
+     */
+    public void setLevelName(String name) {
+        this.currentLevelName = name;
+        levelName = name;
     }
 
 
+    /**
+     * Returns the current score for the player.
+     * @return current score value
+     */
+    public long getScore() {
+        return this.score;
+    }
+
+
+    /**
+     * Initializes the game UI, grid, logic, and key events.
+     * @param gameScene The JavaFX scene
+     * @param root The root group node
+     * @param primaryStage The main game window
+     * @param endGameScene The end game scene
+     * @param endGameRoot Root group for end game screen
+     */
     public void game(Scene gameScene, Group root, Stage primaryStage, Scene endGameScene, Group endGameRoot) {
         this.score = 0;
         ScoreDebugger.reset();
@@ -169,13 +139,13 @@ public  class LevelParent {
         double boxHeight = 60;
         double spacing = 20;
         double topY = 200;
-        double startX = 20;  // moved left from 550
+        double startX = 20;
 
         // === BEST SCORE BOX ===
         Rectangle bestBox = new Rectangle(boxWidth, boxHeight);
         bestBox.setArcWidth(20);
         bestBox.setArcHeight(20);
-        bestBox.setFill(Color.web("#D7CCC8")); // Light brown / cream
+        bestBox.setFill(Color.web("#D7CCC8"));
         bestBox.setX(startX);
         bestBox.setY(topY);
 
@@ -195,19 +165,19 @@ public  class LevelParent {
         Rectangle scoreBox = new Rectangle(boxWidth, boxHeight);
         scoreBox.setArcWidth(20);
         scoreBox.setArcHeight(20);
-        scoreBox.setFill(Color.web("#BCAAA4")); // Soft brown
+        scoreBox.setFill(Color.web("#BCAAA4"));
         scoreBox.setX(startX + boxWidth + spacing);
         scoreBox.setY(topY);
 
         Text scoreLabel = new Text("CURRENT SCORE");
         scoreLabel.setFont(Font.font("Consolas", 18));
-        scoreLabel.setFill(Color.web("#4E342E")); // Deep brown text
+        scoreLabel.setFill(Color.web("#4E342E"));
         scoreLabel.setX(startX + boxWidth + spacing + 15);
         scoreLabel.setY(topY + 22);
 
         scoreText = new Text("0");
         scoreText.setFont(Font.font("Consolas", 20));
-        scoreText.setFill(Color.web("#3E2723")); // Darker brown
+        scoreText.setFill(Color.web("#3E2723"));
         scoreText.setX(startX + boxWidth + spacing + 15);
         scoreText.setY(topY + 48);
 
@@ -306,6 +276,93 @@ public  class LevelParent {
     }
 
 
+
+
+
+
+    /**
+     * Randomly fills an empty cell with either a 2 or 4.
+     * @param turn Indicates the turn number
+     */
+
+    private void randomFillNumber(int turn) {
+
+        Cell[][] emptyCells = new Cell[n][n];
+        int a = 0;
+        int b = 0;
+        int aForBound=0,bForBound=0;
+        outer:
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (cells[i][j].getNumber() == 0) {
+                    emptyCells[a][b] = cells[i][j];
+                    if (b < n-1) {
+                        bForBound=b;
+                        b++;
+
+                    } else {
+                        aForBound=a;
+                        a++;
+                        b = 0;
+                        if(a==n)
+                            break outer;
+                    }
+                }
+            }
+        }
+
+
+
+        Text text;
+        Random random = new Random();
+        boolean putTwo = true;
+        if (random.nextInt() % 2 == 0)
+            putTwo = false;
+        int xCell, yCell;
+        xCell = random.nextInt(aForBound+1);
+        yCell = random.nextInt(bForBound+1);
+        if (putTwo) {
+            text = textMaker.madeText("2", emptyCells[xCell][yCell].getX(), emptyCells[xCell][yCell].getY(), root);
+            emptyCells[xCell][yCell].setTextClass(text);
+            root.getChildren().add(text);
+            emptyCells[xCell][yCell].setColorByNumber(2);
+            //
+            playPopAnimation(text);
+
+        } else {
+            text = textMaker.madeText("4", emptyCells[xCell][yCell].getX(), emptyCells[xCell][yCell].getY(), root);
+            emptyCells[xCell][yCell].setTextClass(text);
+            root.getChildren().add(text);
+            emptyCells[xCell][yCell].setColorByNumber(4);
+            //
+            playPopAnimation(text);
+
+        }
+    }
+
+    /**
+     * Checks if any cell is empty or if 2048 is reached.
+     * @return 1 if empty, 0 if 2048 found, -1 if full
+     */
+    private int  haveEmptyCell() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (cells[i][j].getNumber() == 0)
+                    return 1;
+                if(cells[i][j].getNumber() == 2048)
+                    return 0;
+            }
+        }
+        return -1;
+    }
+
+
+
+
+    /**
+     * Plays a pop animation when a tile is created. Shows users clear transitions
+     * @param text The text element to animate
+     */
     private void playPopAnimation(Text text) {
         ScaleTransition scale = new ScaleTransition(Duration.millis(200), text);
         scale.setFromX(0.1);
@@ -315,8 +372,6 @@ public  class LevelParent {
         scale.play();
     }
 
-    public long getScore() {
-        return this.score;
-    }
+
 
 }

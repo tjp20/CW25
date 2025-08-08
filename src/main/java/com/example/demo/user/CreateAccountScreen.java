@@ -12,8 +12,19 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Provides the UI for creating a new user account.
+ */
 public class CreateAccountScreen {
 
+    /**
+     * Sets up and displays the Create Account screen.
+     *
+     * @param root          the root group to add UI elements to
+     * @param scene         the scene where the UI is displayed
+     * @param accountScene  the scene to return to after creating or cancelling
+     * @param primaryStage  the main application window
+     */
     public static void addToCreateAccountScreen(Group root, Scene scene, Scene accountScene, Stage primaryStage) {
         // Set background color
         scene.setFill(Color.web("#ffedb5"));
@@ -23,15 +34,15 @@ public class CreateAccountScreen {
             Image bg = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/CreateBackground.png"));
             ImageView bgView = new ImageView(bg);
             bgView.setPreserveRatio(true);
-            bgView.setFitWidth(1200);  // fixed size
-            bgView.setX(150);          // fixed position
+            bgView.setFitWidth(1200);
+            bgView.setX(150);
             bgView.setY(40);
             root.getChildren().add(bgView);
         } catch (Exception e) {
             System.out.println("CreateBackground.png not found.");
         }
 
-        // Username input field (same place as AccountScreen)
+        // Username input field
         TextField newUserField = new TextField();
         newUserField.setPromptText("Enter new username");
         newUserField.setLayoutX(620);
@@ -40,25 +51,7 @@ public class CreateAccountScreen {
         newUserField.setPrefHeight(30);
         root.getChildren().add(newUserField);
 
-        // Load button images
-        Image createNormal = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/CreateAccountButton1.png"));
-        Image createHover = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/CreateAccountButton2.png"));
-
-        // Create Account button with image
-        Button confirmCreateBtn = new Button();
-        ImageView createView = new ImageView(createNormal);
-        createView.setFitWidth(270);
-        createView.setFitHeight(190);
-        createView.setPreserveRatio(true);
-        confirmCreateBtn.setGraphic(createView);
-        confirmCreateBtn.setStyle("-fx-background-color: transparent;");
-        confirmCreateBtn.setLayoutX(650); // aligned with AccountScreen's HBox X
-        confirmCreateBtn.setLayoutY(480); // below the text field and feedback
-        confirmCreateBtn.setOnMouseEntered(e -> createView.setImage(createHover));
-        confirmCreateBtn.setOnMouseExited(e -> createView.setImage(createNormal));
-        root.getChildren().add(confirmCreateBtn);
-
-        // Feedback text (same position as AccountScreen resultText)
+        // Feedback text
         Text feedback = new Text();
         feedback.setFont(Font.font("Arial", 18));
         feedback.setFill(Color.RED);
@@ -66,11 +59,27 @@ public class CreateAccountScreen {
         feedback.setY(480);
         root.getChildren().add(feedback);
 
+        // Create Account button
+        Image createNormal = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/CreateAccountButton1.png"));
+        Image createHover = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/CreateAccountButton2.png"));
 
-        // Back button with image
+        Button confirmCreateBtn = new Button();
+        ImageView createView = new ImageView(createNormal);
+        createView.setFitWidth(270);
+        createView.setFitHeight(190);
+        createView.setPreserveRatio(true);
+        confirmCreateBtn.setGraphic(createView);
+        confirmCreateBtn.setStyle("-fx-background-color: transparent;");
+        confirmCreateBtn.setLayoutX(650);
+        confirmCreateBtn.setLayoutY(480);
+        confirmCreateBtn.setOnMouseEntered(e -> createView.setImage(createHover));
+        confirmCreateBtn.setOnMouseExited(e -> createView.setImage(createNormal));
+        root.getChildren().add(confirmCreateBtn);
+
+        // Back button
         Image backImg = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/BackButton.png"));
         ImageView backView = new ImageView(backImg);
-        backView.setFitWidth(60);  // Adjust size as needed
+        backView.setFitWidth(60);
         backView.setFitHeight(60);
 
         Button backButton = new Button();
@@ -79,7 +88,6 @@ public class CreateAccountScreen {
         backButton.setLayoutX(20);
         backButton.setLayoutY(20);
         root.getChildren().add(backButton);
-
 
         // Create button logic
         confirmCreateBtn.setOnAction(e -> {
@@ -112,6 +120,7 @@ public class CreateAccountScreen {
                 }).start();
             }
         });
+
         // Back button logic
         backButton.setOnAction(e -> {
             primaryStage.setScene(accountScene);

@@ -12,10 +12,23 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
+/**
+ * The {@code ExitButton} class provides a static method to add
+ * a styled exit button to a JavaFX scene. Clicking the button
+ * triggers a confirmation dialog before closing the application.
+ */
 public class ExitButton {
 
+    /**
+     * Adds an "X" shaped exit button to the given root group.
+     * When clicked, a confirmation dialog appears to prevent accidental exits.
+     *
+     * @param root        the root {@link Group} to which the button is added
+     * @param stage       the primary {@link Stage} of the application
+     * @param sceneWidth  the width of the scene (not directly used in layout, but could assist in dynamic positioning)
+     */
     public static void addTo(Group root, Stage stage, double sceneWidth) {
-
+        // Create the exit button
         Button exitButton = new Button("X");
         exitButton.setFont(Font.font("Arial", 18));
         exitButton.setTextFill(Color.WHITE);
@@ -28,11 +41,11 @@ public class ExitButton {
                         "-fx-max-height: 50;"
         );
 
-
+        // Set position (adjust as needed)
         exitButton.setLayoutX(132);
         exitButton.setLayoutY(50);
 
-
+        // Hover effect using DropShadow
         DropShadow shadow = new DropShadow();
         exitButton.setOnMouseEntered(e -> {
             exitButton.setStyle(
@@ -45,6 +58,7 @@ public class ExitButton {
             );
             exitButton.setEffect(shadow);
         });
+
         exitButton.setOnMouseExited(e -> {
             exitButton.setStyle(
                     "-fx-background-color: #c62828;" +
@@ -57,7 +71,7 @@ public class ExitButton {
             exitButton.setEffect(null);
         });
 
-        // Confirmation dialog before exiting
+        // Confirmation dialog before exit
         exitButton.setOnAction(e -> {
             Alert confirm = new Alert(AlertType.CONFIRMATION);
             confirm.setTitle("Exit Confirmation");
@@ -70,6 +84,7 @@ public class ExitButton {
             }
         });
 
+        // Add the button to the root group
         root.getChildren().add(exitButton);
     }
 }

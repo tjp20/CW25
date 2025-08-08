@@ -16,19 +16,46 @@ import javafx.stage.Stage;
 
 import java.util.Scanner;
 
+/**
+ * The {@code Main} class initializes and launches the 2048 Retro Game application.
+ * It sets up all the primary screens such as menu, login, level select, game, and account creation.
+ */
 public class Main extends Application {
-    private Group gameRoot = new Group();
-    private Scene gameScene;
-    private static Scanner input = new Scanner(System.in);
 
+    /** Root group for the game scene. */
+    private Group gameRoot = new Group();
+
+    /** The main game scene. */
+    private Scene gameScene;
+
+    /** Scanner for potential console input (currently unused). */
+    private static final Scanner input = new Scanner(System.in);
+
+    /**
+     * Sets the current game scene.
+     *
+     * @param gameScene the game {@link Scene} to set
+     */
     public void setGameScene(Scene gameScene) {
         this.gameScene = gameScene;
     }
 
+    /**
+     * Sets the root {@link Group} used for the game scene.
+     *
+     * @param gameRoot the root group to set
+     */
     public void setGameRoot(Group gameRoot) {
         this.gameRoot = gameRoot;
     }
 
+    /**
+     * The entry point for JavaFX applications.
+     * Initializes and links all screens: menu, login, game, level, etc.
+     *
+     * @param primaryStage the main application window
+     * @throws Exception in case of any initialization error
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Get full screen dimensions
@@ -36,78 +63,71 @@ public class Main extends Application {
         double screenHeight = Screen.getPrimary().getBounds().getHeight();
 
         primaryStage.setFullScreen(true);
-        primaryStage.setTitle("2048 RETRO ");
-        Account.loadAccounts();
+        primaryStage.setTitle("2048 RETRO");
+        Account.loadAccounts(); // Load account data
 
-        // ACCOUNT
+        // --- Initialize Scenes ---
+
+        // Account Login Scene
         Group accountRoot = new Group();
         Scene accountScene = new Scene(accountRoot, screenWidth, screenHeight, Color.rgb(150, 20, 100, 0.2));
 
-        // MENU
+        // Menu Scene
         Group menuRoot = new Group();
         Scene menuScene = new Scene(menuRoot, screenWidth, screenHeight);
-
-        primaryStage.setScene(menuScene);
-        primaryStage.setFullScreen(true);
-        primaryStage.show();
-
         MenuScreen.addToMenu(menuRoot, menuScene, accountScene, primaryStage);
 
-        // LEVEL SCREEN
+        // Level Select Scene
         Group levelRoot = new Group();
         Scene levelScene = new Scene(levelRoot, screenWidth, screenHeight);
 
-        // END GAME
+        // End Game Scene
         Group endgameRoot = new Group();
         Scene endGameScene = new Scene(endgameRoot, screenWidth, screenHeight, Color.rgb(250, 20, 100, 0.2));
 
-        // GET ACCOUNT
+        // Account Creation Scene
         Group getAccountRoot = new Group();
         Scene getAccountScene = new Scene(getAccountRoot, screenWidth, screenHeight, Color.rgb(200, 20, 100, 0.2));
         LoginScreen.addToAccountScreen(accountRoot, accountScene, getAccountScene, primaryStage, levelScene, levelRoot, endGameScene, endgameRoot);
         CreateAccountScreen.addToCreateAccountScreen(getAccountRoot, getAccountScene, accountScene, primaryStage);
 
-        /*Text testLabel = new Text("This is the GET ACCOUNT SCREEN");
-        testLabel.setFill(Color.BLACK);
-        testLabel.setFont(Font.font("Arial", 24));
-        testLabel.setX(250);
-        testLabel.setY(200);
-        getAccountRoot.getChildren().add(testLabel);*/
-
-        // RANK GAME
+        /*// Rank Scene (prepared, not yet linked)
         Group rankRoot = new Group();
         Scene rankScene = new Scene(rankRoot, screenWidth, screenHeight, Color.rgb(250, 50, 120, 0.3));
+        BackgroundFill backgroundFill = new BackgroundFill(Color.rgb(120, 100, 100), CornerRadii.EMPTY, Insets.EMPTY);
+        Background background = new Background(backgroundFill);*/
 
-        BackgroundFill background_fill = new BackgroundFill(Color.rgb(120, 100, 100), CornerRadii.EMPTY, Insets.EMPTY);
-        Background background = new Background(background_fill);
-
-        /*Rectangle backgroundOfMenu = new Rectangle(240, 120, Color.rgb(120, 120, 120, 0.2));
-        backgroundOfMenu.setX(screenWidth / 2 - 120);
-        backgroundOfMenu.setY(180);
-        menuRoot.getChildren().add(backgroundOfMenu);
-
-        Rectangle backgroundOfMenuForPlay = new Rectangle(240, 140, Color.rgb(120, 20, 100, 0.2));
-        backgroundOfMenuForPlay.setX(screenWidth / 2 - 120);
-        backgroundOfMenuForPlay.setY(180);
-        accountRoot.getChildren().add(backgroundOfMenuForPlay);*/
-
+        // Game Scene
         Group gameRoot = new Group();
         setGameRoot(gameRoot);
         Scene gameScene = new Scene(gameRoot, screenWidth, screenHeight, Color.rgb(189, 177, 92));
         setGameScene(gameScene);
 
+        // Show Menu initially
         launchMenu(primaryStage, menuScene);
 
+        // Prepare game logic (not started here, only ready)
         LevelParent game = new LevelParent();
         game.game(gameScene, gameRoot, primaryStage, endGameScene, endgameRoot);
 
         primaryStage.show();
     }
 
+    /**
+     * Launches the main menu scene.
+     *
+     * @param primaryStage the main application window
+     * @param menuScene    the menu {@link Scene} to display
+     */
     public void launchMenu(Stage primaryStage, Scene menuScene) {
         primaryStage.setScene(menuScene);
     }
 
+    /**
+     * Main method that launches the JavaFX application.
+     *
+     * @param args command-line arguments (unused)
+     */
     public static void main(String[] args) {
         launch(args);
     }

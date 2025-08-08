@@ -14,8 +14,20 @@ import javafx.stage.Stage;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Displays the leaderboard screen showing the top player scores
+ * across different levels in the 2048 game.
+ */
 public class LeaderboardScreen {
 
+    /**
+     * Renders and displays the leaderboard scene on the given stage.
+     * Shows the top 10 scores sorted in descending order and includes
+     * a back button to return to the previous scene.
+     *
+     * @param primaryStage the main stage where the leaderboard is displayed
+     * @param backScene    the scene to return to when the back button is clicked
+     */
     public static void show(Stage primaryStage, Scene backScene) {
         Group root = new Group();
         Scene scene = new Scene(root, 900, 750, Color.BLACK); // Arcade black background
@@ -29,11 +41,10 @@ public class LeaderboardScreen {
         root.getChildren().add(title);
 
         // Headers
-        int startY = 120;
-        int rowHeight = 45;
-
         String[] headers = { "RANK", "PLAYER", "LEVEL", "SCORE" };
         int[] colX = { 70, 200, 450, 620 };
+        int startY = 120;
+        int rowHeight = 45;
 
         for (int i = 0; i < headers.length; i++) {
             Label header = new Label(headers[i]);
@@ -48,6 +59,7 @@ public class LeaderboardScreen {
         List<String[]> entries = UserScore.getAllScoresSimple();
         entries.sort(Comparator.comparingLong((String[] e) -> Long.parseLong(e[2])).reversed());
 
+        // Display top 10 scores
         int maxDisplay = Math.min(10, entries.size());
         for (int i = 0; i < maxDisplay; i++) {
             String[] entry = entries.get(i);
@@ -68,7 +80,7 @@ public class LeaderboardScreen {
             }
         }
 
-        //
+        // Back button
         try {
             Image backImg = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/BackButton.png"));
             ImageView backView = new ImageView(backImg);
@@ -89,11 +101,10 @@ public class LeaderboardScreen {
             System.out.println("BackButton.png not found.");
         }
 
+        // Set scene and go fullscreen
         primaryStage.setScene(scene);
-
         javafx.application.Platform.runLater(() -> {
             primaryStage.setFullScreen(true);
         });
-
     }
 }

@@ -16,8 +16,23 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Displays the login screen where users can enter an existing username or create a new account.
+ */
 public class LoginScreen {
 
+    /**
+     * Adds all UI elements and login logic to the given root group for the account screen.
+     *
+     * @param accountRoot   the root group for the login screen
+     * @param accountScene  the login scene
+     * @param getAccountScene the scene to navigate to when creating an account
+     * @param primaryStage  the main application window
+     * @param levelScene    the game level selection scene
+     * @param levelRoot     the root group for the level screen
+     * @param endGameScene  the scene shown at end of game
+     * @param endGameRoot   the root group for the end game screen
+     */
     public static void addToAccountScreen(Group accountRoot, Scene accountScene, Scene getAccountScene, Stage primaryStage, Scene levelScene, Group levelRoot, Scene endGameScene, Group endGameRoot) {
         //  Fill background with matching color
         Rectangle bgFill = new Rectangle();
@@ -25,7 +40,6 @@ public class LoginScreen {
         bgFill.widthProperty().bind(accountScene.widthProperty());
         bgFill.heightProperty().bind(accountScene.heightProperty());
         accountRoot.getChildren().add(bgFill);
-
 
         try {
             Image bg = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/LoginBackground.jpg"));
@@ -47,6 +61,14 @@ public class LoginScreen {
         usernameField.setPrefHeight(30);
         usernameField.setPrefWidth(260);
         accountRoot.getChildren().add(usernameField);
+
+        // Status text
+        Text resultText = new Text();
+        resultText.setFont(Font.font("Arial", 18));
+        resultText.setFill(Color.GREEN);
+        resultText.setX(610);
+        resultText.setY(450);
+        accountRoot.getChildren().add(resultText);
 
         //  Buttons
         Image enterNormal = new Image(MenuScreen.class.getResourceAsStream("/com/example/demo/EnterButton1.png"));
@@ -79,14 +101,6 @@ public class LoginScreen {
         buttonBox.setLayoutY(480);
         buttonBox.getChildren().addAll(submitButton, createButton);
         accountRoot.getChildren().add(buttonBox);
-
-        // Status text
-        Text resultText = new Text();
-        resultText.setFont(Font.font("Arial", 18));
-        resultText.setFill(Color.GREEN);
-        resultText.setX(610);
-        resultText.setY(450);
-        accountRoot.getChildren().add(resultText);
 
         //  Enter logic
         submitButton.setOnAction(e -> {

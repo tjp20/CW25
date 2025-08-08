@@ -12,12 +12,26 @@ import javafx.stage.Stage;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The {@code RankScreen} class displays the top 3 high scores
+ * for a specific level in the 2048 game.
+ */
 public class RankScreen {
 
+    /**
+     * Displays the RankScreen showing the top 3 scores for a given level.
+     *
+     * @param root          The root {@link Group} where all UI elements are added.
+     * @param levelName     The name of the level whose scores will be displayed.
+     * @param primaryStage  The main application {@link Stage}.
+     * @param username      The current player's username.
+     * @param endGameScene  The scene to return to after ending the game.
+     * @param endGameRoot   The root group of the end game scene.
+     */
     public static void show(Group root, String levelName, Stage primaryStage, String username, Scene endGameScene, Group endGameRoot) {
         root.getChildren().clear();
 
-        // Centered Title
+        // Title
         Label title = new Label(" Top 3 Scores - " + levelName);
         title.setFont(Font.font("Consolas", 36));
         title.setTextFill(Color.DARKBLUE);
@@ -25,6 +39,7 @@ public class RankScreen {
         title.setLayoutY(50);
         root.getChildren().add(title);
 
+        // Retrieve and filter top scores
         List<String[]> allScores = UserScore.getAllScoresSimple();
 
         List<String[]> topScores = allScores.stream()
@@ -33,6 +48,7 @@ public class RankScreen {
                 .limit(3)
                 .collect(Collectors.toList());
 
+        // Display scores
         int yStart = 150;
         for (int i = 0; i < topScores.size(); i++) {
             String[] entry = topScores.get(i);
@@ -40,11 +56,12 @@ public class RankScreen {
             Label scoreLabel = new Label(rankText);
             scoreLabel.setFont(Font.font("Consolas", 26));
             scoreLabel.setTextFill(Color.BLACK);
-            scoreLabel.setLayoutX(350); // More centered
+            scoreLabel.setLayoutX(350);
             scoreLabel.setLayoutY(yStart + i * 60);
             root.getChildren().add(scoreLabel);
         }
 
+        // No scores message
         if (topScores.isEmpty()) {
             Label empty = new Label("No scores yet for this level.");
             empty.setFont(Font.font("Consolas", 24));
@@ -54,15 +71,13 @@ public class RankScreen {
             root.getChildren().add(empty);
         }
 
-
-
-        // Add Exit button
+        // Exit button to return to LevelSelectScreen
         Button exitButton = new Button("Exit");
         exitButton.setFont(Font.font("Consolas", 18));
         exitButton.setTextFill(Color.WHITE);
         exitButton.setStyle("-fx-background-color: darkred;");
-        exitButton.setLayoutX(380); // Centered like Levels
-        exitButton.setLayoutY(460); // Below Levels button
+        exitButton.setLayoutX(380);
+        exitButton.setLayoutY(460);
         root.getChildren().add(exitButton);
 
         exitButton.setOnAction(e -> {
@@ -72,7 +87,5 @@ public class RankScreen {
             primaryStage.setScene(levelScene);
             primaryStage.setFullScreen(true);
         });
-
     }
-
 }

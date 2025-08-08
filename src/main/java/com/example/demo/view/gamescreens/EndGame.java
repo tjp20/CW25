@@ -19,51 +19,67 @@ import javafx.stage.Stage;
 
 import java.util.Optional;
 
-
+/**
+ * Singleton class to display the End Game screen.
+ * Shows the player's final score and provides options to quit,
+ * view rankings, or return to the level selection screen.
+ */
 public class EndGame {
     private static EndGame singleInstance = null;
-    private EndGame(){
 
-    }
-    public static EndGame getInstance(){
-        if(singleInstance == null)
-            singleInstance= new EndGame();
+    /**
+     * Private constructor to enforce singleton pattern.
+     */
+    private EndGame() { }
+
+    /**
+     * Returns the single instance of EndGame.
+     *
+     * @return the singleton EndGame instance
+     */
+    public static EndGame getInstance() {
+        if (singleInstance == null)
+            singleInstance = new EndGame();
         return singleInstance;
     }
 
-    public void endGameShow(Scene endGameScene, Group root, Stage primaryStage,long score, Level1 level1){
+    /**
+     * Displays the End Game screen with the player's score and options.
+     *
+     * @param endGameScene The scene to display end game content.
+     * @param root The root node of the end game scene.
+     * @param primaryStage The main stage of the application.
+     * @param score The final score to display.
+     * @param level1 The current Level1 instance (can be null), used to stop the timer if present.
+     */
+    public void endGameShow(Scene endGameScene, Group root, Stage primaryStage, long score, Level1 level1) {
         endGameScene.setFill(Color.web("#8df0b0"));
         double sceneWidth = 900;
 
-        // VBox to hold everything
+        // VBox container for layout
         VBox vbox = new VBox(30);
         vbox.setAlignment(Pos.TOP_CENTER);
         vbox.setLayoutY(100);
         vbox.setLayoutX((sceneWidth - 300) / 2);
 
+        // Game over title
         Text text = new Text("GAME OVER");
-        //text.relocate(250,250);
         text.setFont(Font.font(70));
         text.setFill(Color.BLACK);
-        //root.getChildren().add(text);
 
-        //score text
+        // Score display
         Text scoreText = new Text("Score: " + score);
         scoreText.setFill(Color.BLACK);
-        //scoreText.relocate(250,600);
         scoreText.setFont(Font.font(50));
-        //root.getChildren().add(scoreText);
 
         // Button styling
         String baseStyle = "-fx-font-size: 18px; -fx-font-family: Consolas; -fx-text-fill: white; "
                 + "-fx-background-color: darkgreen; -fx-background-radius: 12;";
         String hoverStyle = "-fx-background-color: #2e8b57;";
 
+        // Quit Button
         Button quitButton = new Button("QUIT");
-        quitButton.setPrefSize(200,45);
-        //quitButton.setTextFill(Color.PINK);
-        //root.getChildren().add(quitButton);
-        //quitButton.relocate(100,800);
+        quitButton.setPrefSize(200, 45);
         quitButton.setStyle(baseStyle);
         quitButton.setOnMouseEntered(e -> quitButton.setStyle(baseStyle + hoverStyle));
         quitButton.setOnMouseExited(e -> quitButton.setStyle(baseStyle));
@@ -76,8 +92,7 @@ public class EndGame {
                 alert.setContentText("Are you sure?");
 
                 Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == ButtonType.OK){
-                    //root.getChildren().clear();
+                if (result.get() == ButtonType.OK) {
                     primaryStage.close();
                 }
             }
@@ -90,7 +105,7 @@ public class EndGame {
         rankButton.setOnMouseEntered(e -> rankButton.setStyle(baseStyle + hoverStyle));
         rankButton.setOnMouseExited(e -> rankButton.setStyle(baseStyle));
         rankButton.setOnAction(e -> {
-            if(level1!=null) level1.stopCountdown();
+            if (level1 != null) level1.stopCountdown();
             Group rankRoot = new Group();
             Scene rankScene = new Scene(rankRoot, 900, 750);
             RankScreen.show(rankRoot, LevelParent.getLevelName(), primaryStage, Account.currentUsername, endGameScene, root);
@@ -105,7 +120,7 @@ public class EndGame {
         levelButton.setOnMouseEntered(e -> levelButton.setStyle(baseStyle + hoverStyle));
         levelButton.setOnMouseExited(e -> levelButton.setStyle(baseStyle));
         levelButton.setOnAction(e -> {
-            if(level1 !=null) level1.stopCountdown();
+            if (level1 != null) level1.stopCountdown();
             Group levelRoot = new Group();
             Scene levelScene = new Scene(levelRoot, 900, 750);
             LevelSelectScreen.addToLevelScreen(levelRoot, levelScene, primaryStage, Account.currentUsername, endGameScene, root);
@@ -113,12 +128,8 @@ public class EndGame {
             primaryStage.setFullScreen(true);
         });
 
-        // Add all to VBox
+        // Add all components to the VBox and root
         vbox.getChildren().addAll(text, scoreText, quitButton, rankButton, levelButton);
         root.getChildren().add(vbox);
-
-
-
     }
-
 }
