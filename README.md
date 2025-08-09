@@ -156,7 +156,7 @@ Cleaned the project by deleting unused files, images, classes, and redundant cod
    Made sure all the designs and theme was matching each other as this would attract the users attention as well as still maintained a simple design for users to navigate around easily.
 
 9. Pause button and screen
-   Implemented pause button and screen for users to click whenever they want to. Once pause button is clicked, no keys can move the tiles and in level 1, timer it stopped and can be resumed.
+   Implemented pause button and screen for users to click whenever they want to. Once pause button is clicked, no keys can move the tiles and in level 1, timer it stopped and can be resumed. The pause screen is then showed alongside 3 buttons for further options such as retry, resume and quit button.
 
 10. Images added
 
@@ -179,6 +179,12 @@ Cleaned the project by deleting unused files, images, classes, and redundant cod
     To enable persistent account storage, I updated the Account class to read and write usernames to a text file. Specifically, I created a saveAccounts() method that writes all usernames in the static account list to a file called accounts.txt, and a loadAccounts() method that reads from this file when the program starts, recreating each account in memory. This allows users to create an account once and have it remembered even after closing and reopening the game. I called Account.loadAccounts(); at the start of the Main.java to ensure all saved usernames are loaded before login, ensuring a seamless user experience.
 
 15. Added Javadocs for all classes to make sure everything is clear and easy for developer to understand and use later on.
+
+16. Added leaderboard screen which shows top 10 scores within all levels which will keep updating as new best scores as created.
+
+17. Added the UI elements for rank screen to display top 3 scores within that specific level unlike leaderboard where it displays top 10 scores within all the levels.
+
+
 
 
 ## Implemented but not working properly
@@ -224,6 +230,9 @@ Cleaned the project by deleting unused files, images, classes, and redundant cod
 
 - Possible solution: Implement a "Challenge" mode where two players play simultaneously on separate boards, racing to achieve the highest score within a set time limit. This could be done locally by splitting the game screen or online using sockets.
 
+6. Next level button
+- Does not include a button to the next level
+- Possible solution: add the button in EndGame so that users can quickly switch to the next level seamlessly.
 ## New Java Classes
 
 1. MenuScreen.java
