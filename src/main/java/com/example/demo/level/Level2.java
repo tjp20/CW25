@@ -26,7 +26,7 @@ public class Level2 extends LevelParent {
         setN(4); // 4 by 4 grid
         setLevelName("Level 2");
         Group root = new Group();
-        Scene scene = new Scene(root, 900, 750, Color.web("#FFBFD2"));
+        Scene scene = new Scene(root, 900, 750, Color.web("#BCB8F5"));
 
         // Add level name display
         Text levelText = new Text("Level 2");
